@@ -1,9 +1,13 @@
+import { useIsFocused } from '@react-navigation/native';
 import React, { FC } from 'react';
-import { Button, Text, TextInput } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View } from 'react-native';
 
+import { LogoBlock } from '~components/LogoBlock';
+import { ButtonSquare } from '~components/shared/Button';
+import { FormInput } from '~components/shared/Input/FormInput';
 import { useInput } from '~hooks/useInput';
 import { AuthStackNavigationName, RegisterScreenProps } from '~navigation/AuthStack/type';
+import { Container } from '~screens/LoginScreen/style';
 import { useRegisterUserMutation } from '~src/redux/api/authApi';
 
 export const RegisterScreen: FC<RegisterScreenProps> = ({ navigation }) => {
@@ -12,31 +16,33 @@ export const RegisterScreen: FC<RegisterScreenProps> = ({ navigation }) => {
     const confirmPassword = useInput('');
     const userName = useInput('');
 
+    const isFocused = useIsFocused();
+
     const inputs = [
         {
             id: '1',
             value: userName.value,
             onChange: userName.setValue,
-            placeholder: 'Enter your username',
+            label: 'Username',
         },
         {
             id: '2',
             value: email.value,
             onChange: email.setValue,
-            placeholder: 'Enter your email',
+            label: 'Email Address',
         },
         {
             id: '3',
             value: password.value,
             onChange: password.setValue,
-            placeholder: 'Enter your password',
+            label: 'Password',
         },
 
         {
             id: '4',
             value: confirmPassword.value,
             onChange: confirmPassword.setValue,
-            placeholder: 'Enter your password again',
+            label: 'Confirm password ',
         },
     ];
 
@@ -55,12 +61,15 @@ export const RegisterScreen: FC<RegisterScreenProps> = ({ navigation }) => {
     };
 
     return (
-        <SafeAreaView>
-            <Text>Register</Text>
-            {inputs.map(({ value, onChange, placeholder, id }) => (
-                <TextInput placeholder={placeholder} value={value} onChangeText={onChange} key={id} />
-            ))}
-            <Button
+        <Container>
+            <LogoBlock screen={isFocused ? 'Register' : 'Login'} />
+            <View style={{ width: '80%' }}>
+                {inputs.map(({ value, onChange, id, label }) => (
+                    <FormInput value={value} onChangeText={onChange} key={id} label={label} />
+                ))}
+            </View>
+
+            <ButtonSquare
                 title="Register"
                 onPress={registerPress}
                 disabled={
@@ -71,6 +80,6 @@ export const RegisterScreen: FC<RegisterScreenProps> = ({ navigation }) => {
                     userName.value !== confirmPassword.value
                 }
             />
-        </SafeAreaView>
+        </Container>
     );
 };

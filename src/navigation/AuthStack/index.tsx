@@ -8,7 +8,11 @@ import { RegisterScreen } from '~screens/RegisterScreen';
 const Stack = createNativeStackNavigator<AuthStackParamList>();
 
 export const AuthStack = () => (
-    <Stack.Navigator>
+    <Stack.Navigator
+        screenOptions={{
+            headerShown: false,
+        }}
+    >
         <Stack.Screen name={AuthStackNavigationName.LOGIN} component={LoginScreen} />
         <Stack.Screen name={AuthStackNavigationName.REGISTER} component={RegisterScreen} />
     </Stack.Navigator>

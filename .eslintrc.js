@@ -30,6 +30,8 @@ module.exports = {
                 'import/prefer-default-export': 'off',
                 'react/no-unstable-nested-components': 'off',
                 'no-param-reassign': 'off',
+                'import/no-extraneous-dependencies': 'off',
+                '@typescript-eslint/dot-notation': 'off',
                 'react/function-component-definition': [
                     2,
                     {
