@@ -29,6 +29,7 @@ module.exports = {
                 '@typescript-eslint/no-unused-expressions': 'off',
                 'import/prefer-default-export': 'off',
                 'react/no-unstable-nested-components': 'off',
+                'no-param-reassign': 'off',
                 'react/function-component-definition': [
                     2,
                     {

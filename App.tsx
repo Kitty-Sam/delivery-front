@@ -1,10 +1,20 @@
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React from 'react';
+import { Provider } from 'react-redux';
 
 import { AuthStack } from '~navigation/AuthStack';
 import { RootStack } from '~navigation/RootStack';
+import { userSelector } from '~src/redux/slices/userSlice';
+import { store, useAppSelector } from '~src/redux/store';
 
 export const App = () => {
-    const [isLogged, setIsLogged] = useState(true);
-    return <NavigationContainer>{isLogged ? <RootStack /> : <AuthStack />}</NavigationContainer>;
+    const { isLoggedIn } = useAppSelector(userSelector);
+
+    return <NavigationContainer>{isLoggedIn ? <RootStack /> : <AuthStack />}</NavigationContainer>;
 };
+
+export const ReduxApp = () => (
+    <Provider store={store}>
+        <App />
+    </Provider>
+);
