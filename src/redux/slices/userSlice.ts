@@ -15,7 +15,7 @@ type UserState = {
 
 const initialState: UserState = {
     currentUser: null,
-    isLoggedIn: false,
+    isLoggedIn: true,
 };
 
 const userSlice = createSlice({

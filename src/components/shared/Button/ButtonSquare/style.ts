@@ -1,6 +1,8 @@
 import styled from 'styled-components/native';
 
-export const ButtonContainer = styled.Pressable`
+import { darkTheme } from '~src/contants/theme';
+
+export const ButtonContainer = styled.TouchableOpacity<{ theme: typeof darkTheme }>`
     width: 80%;
     padding: 10px;
     align-items: center;
@@ -8,7 +10,7 @@ export const ButtonContainer = styled.Pressable`
     border-radius: 10px;
 `;
 
-export const ButtonText = styled.Text`
+export const ButtonText = styled.Text<{ theme: typeof darkTheme }>`
     font-size: 16px;
     font-weight: 600;
     color: ${(props) => props.theme['BUTTON_COLOR']};

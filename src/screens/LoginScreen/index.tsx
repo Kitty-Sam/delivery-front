@@ -1,16 +1,15 @@
 import { useIsFocused } from '@react-navigation/native';
 import React, { FC } from 'react';
-import { View } from 'react-native';
 
 import { LogoBlock } from '~components/LogoBlock';
-import { ButtonSquare } from '~components/shared/Button';
+import { ButtonSquare } from '~components/shared/Button/ButtonSquare';
 import { FormInput } from '~components/shared/Input/FormInput';
 import { useInput } from '~hooks/useInput';
 import { LoginScreenProps } from '~navigation/AuthStack/type';
-import { Container } from '~screens/LoginScreen/style';
+import { Container, InputsContainer } from '~screens/LoginScreen/style';
 import { useLoginUserMutation } from '~src/redux/api/authApi';
 
-export const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
+export const LoginScreen: FC<LoginScreenProps> = () => {
     const email = useInput('');
     const password = useInput('');
     const isFocused = useIsFocused();
@@ -45,11 +44,11 @@ export const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
     return (
         <Container>
             <LogoBlock screen={isFocused ? 'Login' : 'Register'} />
-            <View style={{ width: '80%' }}>
+            <InputsContainer>
                 {inputs.map(({ value, onChange, id, label }) => (
                     <FormInput value={value} onChangeText={onChange} key={id} label={label} />
                 ))}
-            </View>
+            </InputsContainer>
 
             <ButtonSquare title="Login" onPress={loginPress} disabled={!email.value || !password.value} />
         </Container>

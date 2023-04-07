@@ -1,6 +1,6 @@
 export enum RootStackNavigationName {
     HOME = 'Home',
-    ORDER = 'Order',
+    ORDER = 'Favorite',
     NOTIFICATION = 'Notification',
     PROFILE = 'Profile',
 }

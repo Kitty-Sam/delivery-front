@@ -1,4 +1,16 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-export const OrderScreen = () => <Text>Order</Text>;
+import { AvatarBlock } from '~components/AvatarBlock';
+import { SearchBar } from '~components/SearchBar';
+import { useSearch } from '~hooks/useSearch';
+
+export const OrderScreen = () => {
+    const { search, setSearch, filterHandler } = useSearch();
+    return (
+        <SafeAreaView>
+            <AvatarBlock title="Lets eat Favorite food" />
+            <SearchBar search={search} setSearch={setSearch} filterHandler={filterHandler} />
+        </SafeAreaView>
+    );
+};
