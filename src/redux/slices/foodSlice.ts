@@ -5,6 +5,7 @@ export interface IFood {
     name: string;
     description: string;
     price: string;
+    about: string;
     image?: string;
 }
 
@@ -29,5 +30,3 @@ const foodSlice = createSlice({
 export default foodSlice.reducer;
 
 export const { setAllFoods } = foodSlice.actions;
-
-export const foodSelector = (state: { foodStore: FoodState }) => state.foodStore;

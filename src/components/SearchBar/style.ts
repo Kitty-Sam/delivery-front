@@ -15,9 +15,9 @@ export const IconContainer = styled.View`
     padding: 8px;
 `;
 
-export const SearchBarInput = styled.TextInput`
+export const SearchBarInput = styled.TextInput<{ theme: typeof darkTheme }>`
+    background-color: ${(props) => props.theme['BUTTON_COLOR']};
     width: 65%;
     border-radius: 10px;
-    background-color: ${darkTheme.COLORED_BUTTON};
     padding: 10px;
 `;

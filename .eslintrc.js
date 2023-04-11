@@ -34,6 +34,8 @@ module.exports = {
                 '@typescript-eslint/dot-notation': 'off',
                 'react-hooks/exhaustive-deps': 'off',
                 'react/no-unused-prop-types': 'off',
+                'no-plusplus': 'off',
+                'react/prop-types': 'off',
                 'react/function-component-definition': [
                     2,
                     {

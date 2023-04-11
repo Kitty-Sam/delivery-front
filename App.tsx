@@ -7,11 +7,11 @@ import { ThemeProvider } from 'styled-components/native';
 import { AuthStack } from '~navigation/AuthStack';
 import { RootStack } from '~navigation/RootStack';
 import { darkTheme, lightTheme } from '~src/contants/theme';
-import { userSelector } from '~src/redux/slices/userSlice';
+import { getIsLoggedIn } from '~src/redux/selectors';
 import { store, useAppSelector } from '~src/redux/store';
 
 export const App = () => {
-    const { isLoggedIn } = useAppSelector(userSelector);
+    const isLoggedIn = useAppSelector(getIsLoggedIn);
 
     return <NavigationContainer>{isLoggedIn ? <RootStack /> : <AuthStack />}</NavigationContainer>;
 };

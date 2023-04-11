@@ -1,13 +1,13 @@
 export enum RootStackNavigationName {
     HOME = 'Home',
-    ORDER = 'Favorite',
+    FAVORITE = 'Favorite food',
     NOTIFICATION = 'Notification',
     PROFILE = 'Profile',
 }
 
 export type RootStackParamList = {
     [RootStackNavigationName.HOME]: undefined;
-    [RootStackNavigationName.ORDER]: undefined;
+    [RootStackNavigationName.FAVORITE]: undefined;
     [RootStackNavigationName.NOTIFICATION]: undefined;
     [RootStackNavigationName.PROFILE]: undefined;
 };

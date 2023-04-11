@@ -1,14 +1,13 @@
 import React, { FC } from 'react';
 
-import { ButtonContainer, ButtonText } from '~components/shared/Button/ButtonSquare/style';
+import { ButtonContainer, ButtonText } from '~components/shared/Button/ButtonRound/style';
 
 export interface IButton {
     title: string;
     onPress: () => void;
-    disabled?: boolean;
 }
 
-export const ButtonSquare: FC<IButton> = ({ onPress, title, disabled }) => (
+export const ButtonRound: FC<IButton> = ({ onPress, title }) => (
     <ButtonContainer onPress={onPress}>
         <ButtonText>{title}</ButtonText>
     </ButtonContainer>

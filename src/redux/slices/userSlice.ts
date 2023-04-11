@@ -1,5 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { IFood } from '~src/redux/slices/foodSlice';
+
 export interface IUser {
     id: number;
     name: string;
@@ -38,5 +40,3 @@ const userSlice = createSlice({
 export default userSlice.reducer;
 
 export const { setCurrentUser, logIn, logOut } = userSlice.actions;
-
-export const userSelector = (state: { userStore: UserState }) => state.userStore;

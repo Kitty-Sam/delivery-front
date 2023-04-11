@@ -1,12 +1,13 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { Platform } from 'react-native';
 
-import { BASE_URL } from '~src/contants/baseURL';
+import { BASE_URL_ANDROID, BASE_URL_IOS } from '~src/contants/baseURL';
 import { IUser } from '~src/redux/slices/userSlice';
 
 export const usersApi = createApi({
     reducerPath: 'usersApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: `${BASE_URL}/users`,
+        baseUrl: Platform.OS === 'android' ? `${BASE_URL_ANDROID}/users` : `${BASE_URL_IOS}/users`,
         credentials: 'include',
         mode: 'cors',
     }),
