@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import { Counter } from '~components/Counter';
 import { ButtonRound } from '~components/shared/Button/ButtonRound';
 import { DetailScreenProps, MenuStackNavigationName } from '~navigation/MenuStack/type';
 import {
@@ -16,20 +15,23 @@ import {
     TextContainer,
 } from '~screens/DetailsScreen/style';
 import { darkTheme } from '~src/contants/theme';
+import { getBucketOrders } from '~src/redux/selectors';
 import { addOrder } from '~src/redux/slices/bucketSlice';
-import { useAppDispatch } from '~src/redux/store';
+import { useAppDispatch, useAppSelector } from '~src/redux/store';
 
 export const DetailsScreen: FC<DetailScreenProps> = ({ route, navigation }) => {
     const dispatch = useAppDispatch();
 
     const { food } = route.params;
 
-    const { description, price, name, id, image, about } = food;
+    const { description, price, name, image, about } = food;
 
     const addItem = () => {
-        dispatch(addOrder({ order: food }));
+        dispatch(addOrder({ orderItem: { count: 1, order: food } }));
         navigation.navigate(MenuStackNavigationName.ORDER);
     };
+
+    const orders = useAppSelector(getBucketOrders);
 
     return (
         <RootContainer>
@@ -62,7 +64,7 @@ export const DetailsScreen: FC<DetailScreenProps> = ({ route, navigation }) => {
                 <DescriptionText>{about}</DescriptionText>
 
                 <RowContainer>
-                    <Counter food={food} />
+                    <AdditionalText>{orders.length} position(s)</AdditionalText>
                     <ButtonRound title="add to cart" onPress={addItem} />
                 </RowContainer>
             </TextContainer>

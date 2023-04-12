@@ -1,7 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { IFood } from '~src/redux/slices/foodSlice';
-
 export interface IUser {
     id: number;
     name: string;

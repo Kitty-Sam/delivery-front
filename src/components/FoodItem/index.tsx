@@ -22,7 +22,7 @@ export const FoodItem = memo(({ item }: { item: IFood }) => {
 
     const onAddItemPress = () => {
         dispatch(setModalType({ type: 'success' }));
-        dispatch(addOrder({ order: item }));
+        dispatch(addOrder({ orderItem: { count: 1, order: item } }));
     };
 
     return (

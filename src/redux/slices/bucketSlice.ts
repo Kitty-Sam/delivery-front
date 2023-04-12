@@ -2,8 +2,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { IFood } from '~src/redux/slices/foodSlice';
 
+export interface IOrder {
+    count: number;
+    order: IFood;
+}
+
 export interface IBucket {
-    orders: IFood[];
+    orders: IOrder[];
 }
 
 const initialState: IBucket = {
@@ -14,11 +19,19 @@ export const bucketSlice = createSlice({
     name: 'bucket',
     initialState,
     reducers: {
-        addOrder(state, { payload }: PayloadAction<{ order: IFood }>) {
-            state.orders = state.orders.concat(payload.order);
+        addOrder(state, { payload }: PayloadAction<{ orderItem: IOrder }>) {
+            const currentOrder = state.orders.find((order) => order.order.name === payload.orderItem.order.name);
+            if (currentOrder) {
+                currentOrder.count += 1;
+            } else {
+                state.orders = state.orders.concat(payload.orderItem);
+            }
         },
-        removeOrder(state, { payload }: PayloadAction<{ id: number }>) {
-            state.orders = state.orders.filter((item) => item.id !== payload.id);
+        removeOrder(state, { payload }: PayloadAction<{ orderItem: IOrder }>) {
+            const currentOrder = state.orders.find((order) => order.order.name === payload.orderItem.order.name);
+            if (currentOrder) {
+                currentOrder.count -= 1;
+            }
         },
     },
 });

@@ -1,19 +1,26 @@
 import React, { FC } from 'react';
-import { Image, Text, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 
-import { width } from '~src/contants/dimensions';
-import { IFood } from '~src/redux/slices/foodSlice';
+import { Counter } from '~components/Counter';
+import { FoodImage, OrderItemContainer, TextDescription, TextPrice, TextTitle } from '~components/OrderItem/style';
+import { IOrderItem } from '~components/OrderItem/type';
 
-export interface IOrderItem {
-    food: IFood;
-}
+export const OrderItem: FC<IOrderItem> = ({ food }) => {
+    const {
+        order: { image, price, name, description },
+    } = food;
 
-export const OrderItem: FC<IOrderItem> = ({ food }) => (
-    <TouchableOpacity
-        style={{ borderWidth: 1, borderColor: 'red', borderRadius: 10, marginTop: 20, width: width * 0.8, padding: 8 }}
-    >
-        <Image source={{ uri: food.image }} style={{ width: 50, height: 50 }} />
-        <Text>{food.name}</Text>
-        <Text>{food.description}</Text>
-    </TouchableOpacity>
-);
+    return (
+        <OrderItemContainer>
+            <FoodImage source={{ uri: image }} />
+            <View>
+                <TextTitle>{name}</TextTitle>
+                <TextDescription>{description}</TextDescription>
+                <TextPrice>{price} $</TextPrice>
+            </View>
+            <View>
+                <Counter food={food} />
+            </View>
+        </OrderItemContainer>
+    );
+};
