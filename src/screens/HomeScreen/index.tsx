@@ -8,7 +8,8 @@ import { FoodItem } from '~components/FoodItem';
 import { Success } from '~components/Modals/Success';
 import { SearchBar } from '~components/SearchBar';
 import { useSearch } from '~hooks/useSearch';
-import { HomeScreenProps, MenuStackNavigationName } from '~navigation/MenuStack/type';
+import { HomeScreenProps } from '~navigation/HomeStack/type';
+import { RootStackNavigationName } from '~navigation/RootStack/type';
 import { CategoriesContainer, CategoryContainer, RootContainer, styles, TextCategory } from '~screens/HomeScreen/style';
 import { categories } from '~src/contants/categories';
 import { width } from '~src/contants/dimensions';
@@ -50,7 +51,8 @@ export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
     };
 
     const onBucketPress = () => {
-        navigation.navigate(MenuStackNavigationName.ORDER);
+        // @ts-ignore
+        navigation.navigate(RootStackNavigationName.ORDER);
     };
 
     return (

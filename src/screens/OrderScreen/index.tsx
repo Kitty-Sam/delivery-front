@@ -1,9 +1,9 @@
 import React, { FC, useCallback } from 'react';
-import { FlatList, View } from 'react-native';
+import { FlatList } from 'react-native';
 
 import { OrderItem } from '~components/OrderItem';
 import { ButtonSquare } from '~components/shared/Button/ButtonSquare';
-import { MenuStackNavigationName, OrderScreenProps } from '~navigation/MenuStack/type';
+import { OrderScreenProps, RootStackNavigationName } from '~navigation/RootStack/type';
 import {
     BillContainer,
     PriceText,
@@ -23,7 +23,7 @@ export const OrderScreen: FC<OrderScreenProps> = ({ navigation }) => {
     const ordersNormalized = [...new Set(orders)];
 
     const onCloseModalPress = () => {
-        navigation.navigate(MenuStackNavigationName.HOME);
+        navigation.navigate(RootStackNavigationName.HOME);
     };
 
     const renderOrderItem = useCallback(({ item }: { item: IOrder }) => <OrderItem food={item} />, []);
@@ -36,7 +36,7 @@ export const OrderScreen: FC<OrderScreenProps> = ({ navigation }) => {
                 <TitleText>My order</TitleText>
                 <TitleText onPress={onCloseModalPress}>x</TitleText>
             </RowContainer>
-            <FlatList data={ordersNormalized} renderItem={renderOrderItem} />
+            <FlatList data={ordersNormalized} renderItem={renderOrderItem} showsHorizontalScrollIndicator={false} />
             <BillContainer>
                 <RowBillContainer>
                     <PriceText>Subtotal</PriceText>

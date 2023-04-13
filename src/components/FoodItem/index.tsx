@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import React, { memo } from 'react';
 
 import { ButtonCorner } from '~components/shared/Button/ButtonCorner';
-import { MenuStackNavigationName } from '~navigation/MenuStack/type';
+import { RootStackNavigationName } from '~navigation/RootStack/type';
 import { Container, FoodImage, TextDescription, TextPrice, TextTitle } from '~screens/HomeScreen/style';
 import { addOrder } from '~src/redux/slices/bucketSlice';
 import { IFood } from '~src/redux/slices/foodSlice';
@@ -17,7 +17,7 @@ export const FoodItem = memo(({ item }: { item: IFood }) => {
     const navigation = useNavigation<any>();
 
     const onFoodItemPress = () => {
-        navigation.navigate(MenuStackNavigationName.DETAIL, { food: item });
+        navigation.navigate(RootStackNavigationName.DETAILS, { food: item });
     };
 
     const onAddItemPress = () => {

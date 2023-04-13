@@ -8,12 +8,12 @@ export const TextContainer = styled.View<{ theme: typeof darkTheme }>`
     width: ${width * 0.9}px;
     height: ${height * 0.6}px;
     border-top-left-radius: 20px;
-    padding: 20px;
+    padding: 10px;
     justify-content: space-evenly;
 `;
 
 export const Gap = styled.View`
-    height: 20px;
+    height: 15px;
 `;
 
 export const RootContainer = styled.SafeAreaView`

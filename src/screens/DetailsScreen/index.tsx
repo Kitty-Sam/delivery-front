@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { ButtonRound } from '~components/shared/Button/ButtonRound';
-import { DetailScreenProps, MenuStackNavigationName } from '~navigation/MenuStack/type';
+import { DetailScreenProps, RootStackNavigationName } from '~navigation/RootStack/type';
 import {
     AdditionalText,
     DescriptionText,
@@ -28,7 +28,7 @@ export const DetailsScreen: FC<DetailScreenProps> = ({ route, navigation }) => {
 
     const addItem = () => {
         dispatch(addOrder({ orderItem: { count: 1, order: food } }));
-        navigation.navigate(MenuStackNavigationName.ORDER);
+        navigation.navigate(RootStackNavigationName.ORDER);
     };
 
     const orders = useAppSelector(getBucketOrders);

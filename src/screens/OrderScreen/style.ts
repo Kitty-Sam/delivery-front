@@ -32,7 +32,7 @@ export const BillContainer = styled.View<{ theme: typeof darkTheme }>`
     width: 90%;
     border-radius: 20px;
     margin-top: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 `;
 
 export const RowBillContainer = styled.View<{ theme: typeof darkTheme }>`
