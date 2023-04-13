@@ -23,7 +23,7 @@ export const OrderScreen: FC<OrderScreenProps> = ({ navigation }) => {
     const ordersNormalized = [...new Set(orders)];
 
     const onCloseModalPress = () => {
-        navigation.navigate(RootStackNavigationName.HOME);
+        navigation.navigate(RootStackNavigationName.HOMESTACK);
     };
 
     const renderOrderItem = useCallback(({ item }: { item: IOrder }) => <OrderItem food={item} />, []);

@@ -1,11 +1,15 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import { IFood } from '~src/redux/slices/foodSlice';
+
 export interface IUser {
     id: number;
     name: string;
     email: string;
     avatar?: string;
     password: string;
+    favorites: IFood[];
+    orders: IFood[];
 }
 
 type UserState = {
@@ -15,7 +19,7 @@ type UserState = {
 
 const initialState: UserState = {
     currentUser: null,
-    isLoggedIn: true,
+    isLoggedIn: false,
 };
 
 const userSlice = createSlice({

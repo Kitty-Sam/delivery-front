@@ -11,6 +11,6 @@ export const RootStack = () => (
     <Root.Navigator screenOptions={{ headerShown: false }}>
         <Root.Screen name={RootStackNavigationName.HOMESTACK} component={HomeStack} />
         <Root.Screen name={RootStackNavigationName.ORDER} component={OrderScreen} />
-        <Root.Screen name={RootStackNavigationName.DETAILS} component={DetailsScreen} options={{ headerShown: true }} />
+        <Root.Screen name={RootStackNavigationName.DETAILS} component={DetailsScreen} />
     </Root.Navigator>
 );

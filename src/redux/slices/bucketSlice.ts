@@ -31,6 +31,9 @@ export const bucketSlice = createSlice({
             const currentOrder = state.orders.find((order) => order.order.name === payload.orderItem.order.name);
             if (currentOrder) {
                 currentOrder.count -= 1;
+                if (currentOrder.count === 0) {
+                    state.orders = state.orders.filter((order) => order.order.name !== payload.orderItem.order.name);
+                }
             }
         },
     },

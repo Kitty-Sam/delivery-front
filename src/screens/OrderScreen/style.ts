@@ -11,6 +11,7 @@ export const TitleText = styled.Text<{ theme: typeof darkTheme }>`
 export const RootContainer = styled.SafeAreaView`
     flex: 1;
     align-items: center;
+    padding: 10px;
 `;
 
 export const RowContainer = styled.View`

@@ -64,13 +64,24 @@ export const CategoryContainer = styled.TouchableOpacity<{ bgColor: string }>`
     background-color: ${(props) => props.bgColor};
 `;
 
+export const FavoriteContainer = styled.View<{ theme: typeof darkTheme }>`
+    background-color: ${(props) => props.theme['COLORED_BUTTON']};
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    bottom: 109px;
+    right: 18px;
+    justify-content: center;
+    align-items: center;
+`;
+
 export const styles = StyleSheet.create({
     wrapper: {
         justifyContent: 'space-between',
     },
-    contentContainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingTop: 20,
-    },
 });
+
+export const FoodContainer = styled.View`
+    flex: 1;
+    padding: 10px;
+`;

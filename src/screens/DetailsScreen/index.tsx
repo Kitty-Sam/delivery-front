@@ -31,10 +31,20 @@ export const DetailsScreen: FC<DetailScreenProps> = ({ route, navigation }) => {
         navigation.navigate(RootStackNavigationName.ORDER);
     };
 
+    const goBackPress = () => {
+        navigation.goBack();
+    };
+
     const orders = useAppSelector(getBucketOrders);
 
     return (
         <RootContainer>
+            <Icon
+                name="arrow-back"
+                size={28}
+                style={{ position: 'absolute', left: 10, top: 40 }}
+                onPress={goBackPress}
+            />
             <FoodImage source={{ uri: image }} />
 
             <Gap />

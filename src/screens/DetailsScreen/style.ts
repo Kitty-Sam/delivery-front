@@ -6,7 +6,7 @@ import { darkTheme } from '~src/contants/theme';
 export const TextContainer = styled.View<{ theme: typeof darkTheme }>`
     background-color: ${(props) => props.theme['PRIMARY_COLOR']};
     width: ${width * 0.9}px;
-    height: ${height * 0.6}px;
+    height: ${height * 0.65}px;
     border-top-left-radius: 20px;
     padding: 10px;
     justify-content: space-evenly;

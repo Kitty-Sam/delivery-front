@@ -29,7 +29,7 @@ export const FoodImage = styled.Image`
     border-radius: 20px;
 `;
 
-export const OrderItemContainer = styled.TouchableOpacity<{ theme: typeof darkTheme }>`
+export const OrderItemContainer = styled.View<{ theme: typeof darkTheme }>`
     background-color: ${(props) => props.theme['PRIMARY_COLOR']};
     border-radius: 10px;
     margin-top: 30px;

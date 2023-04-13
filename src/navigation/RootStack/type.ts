@@ -6,7 +6,7 @@ import { IFood } from '~src/redux/slices/foodSlice';
 export enum RootStackNavigationName {
     HOMESTACK = 'HomeStack',
     ORDER = 'Order',
-    DETAILS = 'in Details',
+    DETAILS = ' ',
 }
 
 export type RootStackParamList = {
