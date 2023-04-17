@@ -23,7 +23,7 @@ import { useAppDispatch, useAppSelector } from '~src/redux/store';
 
 export const FavoriteScreen = () => {
     const { search, setSearch, filterFavoriteBySearch } = useSearch();
-    const [category, setCategory] = useState('Salty');
+    const [category, setCategory] = useState('');
     const currentUser = useAppSelector(getCurrentUser);
     const filteredFavoriteFoods = useAppSelector(getFavoriteFilteredFoods);
     const modalType = useAppSelector(getModalType);

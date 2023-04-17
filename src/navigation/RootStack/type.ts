@@ -1,6 +1,5 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-import { HomeStackNavigationName } from '~navigation/HomeStack/type';
 import { IFood } from '~src/redux/slices/foodSlice';
 
 export enum RootStackNavigationName {

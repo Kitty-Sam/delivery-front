@@ -36,8 +36,11 @@ export const bucketSlice = createSlice({
                 }
             }
         },
+        clearBucket(state) {
+            state.orders = [];
+        },
     },
 });
 
 export default bucketSlice.reducer;
-export const { addOrder, removeOrder } = bucketSlice.actions;
+export const { addOrder, removeOrder, clearBucket } = bucketSlice.actions;

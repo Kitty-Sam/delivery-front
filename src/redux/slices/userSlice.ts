@@ -9,7 +9,15 @@ export interface IUser {
     avatar?: string;
     password: string;
     favorites: IFood[];
-    orders: IFood[];
+    orders: any;
+}
+
+export interface ICourier {
+    id: number;
+    name: string;
+    surname: string;
+    avatar: string;
+    phone: string;
 }
 
 type UserState = {
