@@ -22,7 +22,7 @@ import {
 import { width } from '~src/contants/dimensions';
 import { darkTheme, lightTheme } from '~src/contants/theme';
 import { useFilterFoodByCategoryMutation, useGetAllCategoriesQuery, useGetAllFoodsQuery } from '~src/redux/api/foodApi';
-import { getCurrentUser, getFilteredFoods, getModalType } from '~src/redux/selectors';
+import { getFilteredFoods, getModalType } from '~src/redux/selectors';
 import { IFood, setFilteredFoods } from '~src/redux/slices/foodSlice';
 import { logOut } from '~src/redux/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '~src/redux/store';
@@ -32,8 +32,6 @@ export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
     const { data: categories } = useGetAllCategoriesQuery();
 
     const [filterFoodByCategory] = useFilterFoodByCategoryMutation();
-
-    const current = useAppSelector(getCurrentUser);
 
     const [category, setCategory] = useState('');
 
@@ -54,7 +52,11 @@ export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
 
     const onCategoryPress = (item: { id: number; title: string }) => async () => {
         setCategory(item.title);
-        await filterFoodByCategory({ categoryId: item.id }).unwrap();
+        if (item.title === 'All') {
+            dispatch(setFilteredFoods([]));
+        } else {
+            await filterFoodByCategory({ categoryId: item.id }).unwrap();
+        }
     };
 
     const renderCategoryItem = useCallback(

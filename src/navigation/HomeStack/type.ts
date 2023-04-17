@@ -10,7 +10,7 @@ export enum HomeStackNavigationName {
 export type HomeStackParamList = {
     [HomeStackNavigationName.HOME]: undefined;
     [HomeStackNavigationName.FAVORITE]: undefined;
-    [HomeStackNavigationName.NOTIFICATION]: { courier: number };
+    [HomeStackNavigationName.NOTIFICATION]: undefined;
     [HomeStackNavigationName.PROFILE]: undefined;
 };
 

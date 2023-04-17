@@ -45,7 +45,7 @@ export const OrderScreen: FC<OrderScreenProps> = ({ navigation }) => {
         }).unwrap();
         refetch();
         // @ts-ignore
-        navigation.navigate(HomeStackNavigationName.NOTIFICATION, { courier: courierId });
+        navigation.navigate(HomeStackNavigationName.NOTIFICATION);
         dispatch(clearBucket());
     };
 

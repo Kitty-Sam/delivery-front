@@ -1,87 +1,54 @@
-import { useRoute } from '@react-navigation/native';
 import React, { useCallback } from 'react';
-import { FlatList, Image, SafeAreaView, Text, View } from 'react-native';
+import { FlatList } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
 
-import { TitleText } from '~screens/OrderScreen/style';
-import { width } from '~src/contants/dimensions';
-import { useGetCourierByIdQuery } from '~src/redux/api/foodApi';
-import { getCurrentUser } from '~src/redux/selectors';
-import { ICourier } from '~src/redux/slices/userSlice';
+import {
+    AdditionalInfoContainer,
+    CourierContainer,
+    DescriptionText,
+    ImageWrapper,
+    NameText,
+    PersonalInfoContainer,
+    RootContainer,
+    TextContainer,
+    TitleText,
+} from '~screens/NotificationScreen/style';
+import { getCouriers } from '~src/redux/selectors';
 import { useAppSelector } from '~src/redux/store';
 
 export const NotificationScreen = () => {
-    const route = useRoute<any>();
-    const { courier } = route.params ? route.params : false;
-
-    const { data: courierInfo } = useGetCourierByIdQuery(courier);
-
-    const currentUser = useAppSelector(getCurrentUser);
-    console.log('currentUser', currentUser!.orders);
+    const couriers = useAppSelector(getCouriers);
 
     const renderCourierItem = useCallback(
-        ({ item }: { item: ICourier }) => (
-            <View
-                style={{
-                    width: width * 0.8,
-                    borderWidth: 1,
-                    borderColor: 'red',
-                    borderRadius: 20,
-                    padding: 10,
-                    justifyContent: 'center',
-                }}
-            >
-                {item ? (
-                    <View style={{ flexDirection: 'row' }}>
-                        <Image source={{ uri: item.avatar }} style={{ width: 100, height: 100 }} />
-                        <View>
-                            <Text>
-                                {item.name} {item.surname}
-                            </Text>
-                            <Text>{item.phone}</Text>
-                        </View>
-                    </View>
-                ) : (
-                    <></>
-                )}
-            </View>
+        ({ item }: { item: any }) => (
+            <CourierContainer>
+                <PersonalInfoContainer>
+                    <ImageWrapper source={{ uri: item.courier.avatar }} />
+                    <TextContainer>
+                        <NameText>
+                            {item.courier.name} {item.courier.surname}
+                        </NameText>
+                        <DescriptionText>Food Courier</DescriptionText>
+                        <NameText>{item.courier.phone}</NameText>
+                    </TextContainer>
+                </PersonalInfoContainer>
+                <AdditionalInfoContainer>
+                    <Icon name="time" size={18} />
+                    <NameText>45 мин</NameText>
+                    <Icon name="home" size={18} />
+                    <NameText>home address</NameText>
+                    <Icon name="cash" size={18} />
+                    <NameText>{item.total} $</NameText>
+                </AdditionalInfoContainer>
+            </CourierContainer>
         ),
         [],
     );
 
     return (
-        <SafeAreaView style={{ flex: 1, padding: 10 }}>
+        <RootContainer>
             <TitleText>Notification</TitleText>
-
-            <View style={{ flex: 1, alignItems: 'center', marginTop: 20 }}>
-                {courier && (
-                    <>
-                        <TitleText>current order</TitleText>
-                        <View
-                            style={{
-                                width: width * 0.8,
-                                borderWidth: 1,
-                                borderColor: 'red',
-                                borderRadius: 20,
-                                padding: 10,
-                                justifyContent: 'center',
-                            }}
-                        >
-                            {courierInfo && (
-                                <View style={{ flexDirection: 'row' }}>
-                                    <Image source={{ uri: courierInfo.avatar }} style={{ width: 100, height: 100 }} />
-                                    <View>
-                                        <Text>
-                                            {courierInfo.name} {courierInfo.surname}
-                                        </Text>
-                                        <Text>{courierInfo.phone}</Text>
-                                    </View>
-                                </View>
-                            )}
-                        </View>
-                    </>
-                )}
-                <TitleText>the all list of orders</TitleText>
-            </View>
-        </SafeAreaView>
+            <FlatList data={couriers} renderItem={renderCourierItem} showsVerticalScrollIndicator={false} />
+        </RootContainer>
     );
 };

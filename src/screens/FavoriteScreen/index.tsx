@@ -15,8 +15,8 @@ import {
     styles,
     TextCategory,
 } from '~screens/HomeScreen/style';
-import { categories } from '~src/contants/categories';
 import { darkTheme, lightTheme } from '~src/contants/theme';
+import { useFilterFavoriteFoodByCategoryMutation, useGetAllCategoriesQuery } from '~src/redux/api/foodApi';
 import { getCurrentUser, getFavoriteFilteredFoods, getModalType } from '~src/redux/selectors';
 import { IFood, setFavoriteFilteredFoods } from '~src/redux/slices/foodSlice';
 import { useAppDispatch, useAppSelector } from '~src/redux/store';
@@ -24,9 +24,13 @@ import { useAppDispatch, useAppSelector } from '~src/redux/store';
 export const FavoriteScreen = () => {
     const { search, setSearch, filterFavoriteBySearch } = useSearch();
     const [category, setCategory] = useState('');
+
     const currentUser = useAppSelector(getCurrentUser);
     const filteredFavoriteFoods = useAppSelector(getFavoriteFilteredFoods);
     const modalType = useAppSelector(getModalType);
+
+    const { data: categories } = useGetAllCategoriesQuery();
+    const [filterFavoriteFoodByCategory] = useFilterFavoriteFoodByCategoryMutation();
 
     const dispatch = useAppDispatch();
 
@@ -36,15 +40,22 @@ export const FavoriteScreen = () => {
         }
     }, [search]);
 
-    const onCategoryPress = (item: string) => () => setCategory(item);
+    const onCategoryPress = (item: { id: number; title: string }) => async () => {
+        setCategory(item.title);
+        if (item.title === 'All') {
+            dispatch(setFavoriteFilteredFoods([]));
+        } else {
+            await filterFavoriteFoodByCategory({ categoryId: item.id, userId: currentUser!.id }).unwrap();
+        }
+    };
 
     const renderCategoryItem = useCallback(
-        ({ item }: { item: string }) => (
+        ({ item }: { item: { id: number; title: string } }) => (
             <CategoryContainer
-                bgColor={category === item ? darkTheme.COLORED_BUTTON : lightTheme.BUTTON_COLOR}
+                bgColor={category === item.title ? darkTheme.COLORED_BUTTON : lightTheme.BUTTON_COLOR}
                 onPress={onCategoryPress(item)}
             >
-                <TextCategory>{item}</TextCategory>
+                <TextCategory>{item.title}</TextCategory>
             </CategoryContainer>
         ),
         [category],

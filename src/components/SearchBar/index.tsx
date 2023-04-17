@@ -13,7 +13,8 @@ export const SearchBar: FC<ISearchBar> = ({ setSearch, search, filterHandler }) 
             placeholderTextColor="grey"
         />
         <IconContainer>
-            <Icon name="options-outline" size={24} color="grey" onPress={filterHandler} />
+            {/* <Icon name="options-outline" size={24} color="grey" onPress={filterHandler} /> */}
+            <Icon name="search" size={24} color="grey" onPress={filterHandler} />
         </IconContainer>
     </Container>
 );
