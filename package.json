@@ -16,6 +16,7 @@
     "@react-navigation/native": "^6.1.6",
     "@react-navigation/native-stack": "^6.9.12",
     "@reduxjs/toolkit": "^1.9.3",
+    "@stripe/stripe-react-native": "^0.18.1",
     "install": "^0.13.0",
     "lodash": "^4.17.21",
     "react": "18.1.0",
@@ -24,7 +25,8 @@
     "react-native-screens": "^3.20.0",
     "react-native-vector-icons": "^9.2.0",
     "react-redux": "^8.0.5",
-    "styled-components": "^5.3.9"
+    "styled-components": "^5.3.9",
+    "stripe": "^10.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

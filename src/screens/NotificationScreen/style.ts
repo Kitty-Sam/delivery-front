@@ -8,23 +8,9 @@ export const TitleText = styled.Text<{ theme: typeof darkTheme }>`
     font-size: 24px;
 `;
 
-export const ChapterText = styled.Text<{ theme: typeof darkTheme }>`
-    color: ${(props) => props.theme['TEXT_COLOR']};
-    font-weight: 400;
-    font-size: 18px;
-`;
-
 export const RootContainer = styled.SafeAreaView`
     flex: 1;
     margin: 20px;
-`;
-
-export const CouriersContainer = styled.View`
-    flex: 1;
-    margin-top: 20px;
-    align-items: center;
-    border-color: red;
-    border-width: 1px;
 `;
 
 export const NameText = styled.Text<{ theme: typeof darkTheme }>`

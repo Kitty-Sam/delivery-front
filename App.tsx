@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { NavigationContainer } from '@react-navigation/native';
+import { StripeProvider } from '@stripe/stripe-react-native';
 import React, { useEffect, useState } from 'react';
 import { Provider } from 'react-redux';
 import { ThemeProvider } from 'styled-components/native';
@@ -18,6 +19,7 @@ export const App = () => {
 
 export const ReduxApp = () => {
     const [theme, setTheme] = useState('light');
+
     const getTheme = async () => {
         try {
             const themeValue = await AsyncStorage.getItem('@theme');
@@ -42,10 +44,15 @@ export const ReduxApp = () => {
     };
 
     return (
-        <Provider store={store}>
-            <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-                <App />
-            </ThemeProvider>
-        </Provider>
+        <StripeProvider
+            publishableKey="pk_test_51LYUtmFO7YbklW5JGiQCAJrUodfACYBcJvVej3LwzUPXLY2GgrDDHD7XIa2gPtFNaVKE8Bif6EQeDwXVdPaeKakT007KJ5nXYd
+"
+        >
+            <Provider store={store}>
+                <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+                    <App />
+                </ThemeProvider>
+            </Provider>
+        </StripeProvider>
     );
 };
