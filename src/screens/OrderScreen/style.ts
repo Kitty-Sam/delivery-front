@@ -8,9 +8,10 @@ export const TitleText = styled.Text<{ theme: typeof darkTheme }>`
     font-size: 24px;
 `;
 
-export const RootContainer = styled.SafeAreaView`
+export const RootContainer = styled.SafeAreaView<{ theme: typeof darkTheme }>`
     flex: 1;
     align-items: center;
+    background-color: ${(props) => props.theme['BACKGROUND_COLOR']};
     padding: 10px;
 `;
 
@@ -28,7 +29,7 @@ export const PriceText = styled.Text<{ theme: typeof darkTheme }>`
 `;
 
 export const BillContainer = styled.View<{ theme: typeof darkTheme }>`
-    background-color: ${(props) => props.theme['PRIMARY_COLOR']};
+    background-color: ${(props) => props.theme['BUTTON_COLOR']};
     align-items: center;
     width: 90%;
     border-radius: 20px;

@@ -4,7 +4,7 @@ import { height, width } from '~src/contants/dimensions';
 import { darkTheme } from '~src/contants/theme';
 
 export const TextContainer = styled.View<{ theme: typeof darkTheme }>`
-    background-color: ${(props) => props.theme['PRIMARY_COLOR']};
+    background-color: ${(props) => props.theme['BUTTON_COLOR']};
     width: ${width * 0.9}px;
     height: ${height * 0.65}px;
     border-top-left-radius: 20px;
@@ -16,9 +16,10 @@ export const Gap = styled.View`
     height: 15px;
 `;
 
-export const RootContainer = styled.SafeAreaView`
+export const RootContainer = styled.SafeAreaView<{ theme: typeof darkTheme }>`
     flex: 1;
     align-items: flex-end;
+    background-color: ${(props) => props.theme['BACKGROUND_COLOR']};
 `;
 export const RowCenteredContainer = styled.View`
     flex-direction: row;

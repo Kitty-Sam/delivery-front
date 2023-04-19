@@ -52,7 +52,7 @@ export const FavoriteScreen = () => {
     const renderCategoryItem = useCallback(
         ({ item }: { item: { id: number; title: string } }) => (
             <CategoryContainer
-                bgColor={category === item.title ? darkTheme.COLORED_BUTTON : lightTheme.BUTTON_COLOR}
+                style={{ backgroundColor: category === item.title ? darkTheme.COLORED_BUTTON : undefined }}
                 onPress={onCategoryPress(item)}
             >
                 <TextCategory>{item.title}</TextCategory>

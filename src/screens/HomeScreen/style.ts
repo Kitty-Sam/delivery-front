@@ -4,7 +4,7 @@ import styled from 'styled-components/native';
 import { darkTheme } from '~src/contants/theme';
 
 export const Container = styled.TouchableOpacity<{ theme: typeof darkTheme }>`
-    background-color: ${(props) => props.theme['PRIMARY_COLOR']};
+    background-color: ${(props) => props.theme['BUTTON_COLOR']};
     align-items: center;
     justify-content: space-evenly;
     height: 200px;
@@ -15,8 +15,9 @@ export const Container = styled.TouchableOpacity<{ theme: typeof darkTheme }>`
     border-bottom-left-radius: 10px;
 `;
 
-export const RootContainer = styled.SafeAreaView`
+export const RootContainer = styled.SafeAreaView<{ theme: typeof darkTheme }>`
     flex: 1;
+    background-color: ${(props) => props.theme['BACKGROUND_COLOR']};
 `;
 
 export const CategoriesContainer = styled.SafeAreaView`
@@ -54,14 +55,15 @@ export const TextCategory = styled.Text<{ theme: typeof darkTheme }>`
     color: ${(props) => props.theme['TEXT_COLOR']};
 `;
 
-export const CategoryContainer = styled.TouchableOpacity<{ bgColor: string }>`
+export const CategoryContainer = styled.TouchableOpacity<{ theme: typeof darkTheme }>`
     border-radius: 15px;
     margin: 10px;
     justify-content: center;
     align-items: center;
     padding: 8px;
     width: 100px;
-    background-color: ${(props) => props.bgColor};
+    border-color: ${(props) => props.theme['SUBTITLE_COLOR']};
+    border-width: 1px;
 `;
 
 export const FavoriteContainer = styled.View<{ theme: typeof darkTheme }>`

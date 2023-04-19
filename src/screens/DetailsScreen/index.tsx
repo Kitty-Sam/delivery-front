@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useTheme } from 'styled-components';
 
 import { ButtonRound } from '~components/shared/Button/ButtonRound';
 import { DetailScreenProps, RootStackNavigationName } from '~navigation/RootStack/type';
@@ -35,6 +36,8 @@ export const DetailsScreen: FC<DetailScreenProps> = ({ route, navigation }) => {
         navigation.goBack();
     };
 
+    const theme: any = useTheme();
+
     const orders = useAppSelector(getBucketOrders);
 
     return (
@@ -42,6 +45,7 @@ export const DetailsScreen: FC<DetailScreenProps> = ({ route, navigation }) => {
             <Icon
                 name="arrow-back"
                 size={28}
+                color={theme.TITLE_COLOR}
                 style={{ position: 'absolute', left: 10, top: 40 }}
                 onPress={goBackPress}
             />

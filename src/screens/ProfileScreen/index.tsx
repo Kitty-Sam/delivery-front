@@ -2,6 +2,7 @@ import { CardField, confirmPayment, initStripe } from '@stripe/stripe-react-nati
 import React, { useState } from 'react';
 import { Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useTheme } from 'styled-components';
 
 import { initAvatar } from '~components/AvatarBlock/config';
 import { ButtonSquare } from '~components/shared/Button/ButtonSquare';
@@ -27,6 +28,8 @@ export const ProfileScreen = () => {
     const currentUser = useAppSelector(getCurrentUser);
     const [method, setMethod] = useState('');
 
+    const theme: any = useTheme();
+
     const billingDetails = {
         email: 'jenny.rosen@example.com',
     };
@@ -46,11 +49,7 @@ export const ProfileScreen = () => {
             });
             const paymentIntents = await response.json();
 
-            console.log('paymentIntents', paymentIntents);
-
             const clientSecret = paymentIntents.client_secret;
-
-            console.log('clientSecret', clientSecret);
 
             const { error, paymentIntent } = await confirmPayment(clientSecret, {
                 paymentMethodType: 'Card',
@@ -84,7 +83,7 @@ export const ProfileScreen = () => {
                 <TextAvatarBlock>
                     <NameText>{currentUser!.name}</NameText>
                     <NameText>{currentUser!.email}</NameText>
-                    <Icon name="sign-out" onPress={logoutPress} size={24} />
+                    <Icon name="sign-out" onPress={logoutPress} size={24} color={theme.TITLE_COLOR} />
                 </TextAvatarBlock>
             </AvatarBlock>
 
@@ -107,7 +106,7 @@ export const ProfileScreen = () => {
             <ChapterText>Payments method</ChapterText>
             <CardContainer>
                 <MethodPaymentContainer>
-                    <Icon name="credit-card" size={18} />
+                    <Icon name="credit-card" size={18} color={theme.TITLE_COLOR} />
                     <NameText>Credit Card</NameText>
                     <CheckBoxContainer
                         onPress={() => setMethod('credit')}
@@ -117,7 +116,7 @@ export const ProfileScreen = () => {
                     />
                 </MethodPaymentContainer>
                 <MethodPaymentContainer>
-                    <Icon name="paypal" size={18} />
+                    <Icon name="paypal" size={18} color={theme.TITLE_COLOR} />
                     <NameText>Paypal</NameText>
                     <CheckBoxContainer
                         onPress={() => setMethod('paypal')}
@@ -127,7 +126,7 @@ export const ProfileScreen = () => {
                     />
                 </MethodPaymentContainer>
                 <MethodPaymentContainer>
-                    <Icon name="google" size={18} />
+                    <Icon name="google" size={18} color={theme.TITLE_COLOR} />
                     <NameText>Google pay</NameText>
                     <CheckBoxContainer
                         onPress={() => setMethod('google')}

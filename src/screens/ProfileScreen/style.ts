@@ -6,17 +6,20 @@ export const TitleText = styled.Text<{ theme: typeof darkTheme }>`
     color: ${(props) => props.theme['TEXT_COLOR']};
     font-weight: 700;
     font-size: 24px;
+    margin-left: 30px;
+    margin-top: 20px;
 `;
 
 export const ChapterText = styled.Text<{ theme: typeof darkTheme }>`
     color: ${(props) => props.theme['TEXT_COLOR']};
     font-weight: 700;
     font-size: 14px;
+    margin-left: 30px;
 `;
 
-export const RootContainer = styled.SafeAreaView`
+export const RootContainer = styled.SafeAreaView<{ theme: typeof darkTheme }>`
     flex: 1;
-    margin: 20px;
+    background-color: ${(props) => props.theme['BACKGROUND_COLOR']};
 `;
 
 export const NameText = styled.Text<{ theme: typeof darkTheme }>`
@@ -34,7 +37,7 @@ export const CardContainer = styled.View<{ theme: typeof darkTheme }>`
 `;
 
 export const CheckBoxContainer = styled.TouchableOpacity<{ theme: typeof darkTheme }>`
-    border-color: ${(props) => props.theme['PRIMARY_COLOR']};
+    border-color: ${(props) => props.theme['SECONDARY_COLOR']};
     border-radius: 10px;
     width: 20px;
     height: 20px;
@@ -49,6 +52,7 @@ export const MethodPaymentContainer = styled.View<{ theme: typeof darkTheme }>`
     border-color: ${darkTheme.SECONDARY_COLOR};
     border-width: 1px;
     border-radius: 10px;
+    background-color: ${(props) => props.theme['BUTTON_COLOR']};
 `;
 
 export const AvatarImage = styled.Image`

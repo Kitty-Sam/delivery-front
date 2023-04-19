@@ -1,6 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useTheme } from 'styled-components';
 
 import { HomeStackNavigationName, HomeStackParamList } from '~navigation/HomeStack/type';
 import { FavoriteScreen } from '~screens/FavoriteScreen';
@@ -11,33 +12,39 @@ import { darkTheme } from '~src/contants/theme';
 
 export const Home = createBottomTabNavigator<HomeStackParamList>();
 
-export const HomeStack = () => (
-    <Home.Navigator
-        screenOptions={({ route }) => ({
-            tabBarIcon: ({ focused, color, size }) => {
-                let iconName = 'home';
+export const HomeStack = () => {
+    const theme: any = useTheme();
+    return (
+        <Home.Navigator
+            screenOptions={({ route }) => ({
+                tabBarIcon: ({ focused, color, size }) => {
+                    let iconName = 'home';
 
-                if (route.name === HomeStackNavigationName.HOME) {
-                    iconName = focused ? 'home' : 'home-outline';
-                } else if (route.name === HomeStackNavigationName.FAVORITE) {
-                    iconName = focused ? 'book-sharp' : 'book-outline';
-                } else if (route.name === HomeStackNavigationName.NOTIFICATION) {
-                    iconName = focused ? 'notifications-sharp' : 'notifications-outline';
-                } else if (route.name === HomeStackNavigationName.PROFILE) {
-                    iconName = focused ? 'md-person-sharp' : 'md-person-outline';
-                }
-                return <Icon name={iconName} size={size} color={darkTheme.COLORED_BUTTON} />;
-            },
-            tabBarLabelStyle: {
-                color: darkTheme.SECONDARY_COLOR,
-            },
+                    if (route.name === HomeStackNavigationName.HOME) {
+                        iconName = focused ? 'home' : 'home-outline';
+                    } else if (route.name === HomeStackNavigationName.FAVORITE) {
+                        iconName = focused ? 'book-sharp' : 'book-outline';
+                    } else if (route.name === HomeStackNavigationName.NOTIFICATION) {
+                        iconName = focused ? 'notifications-sharp' : 'notifications-outline';
+                    } else if (route.name === HomeStackNavigationName.PROFILE) {
+                        iconName = focused ? 'md-person-sharp' : 'md-person-outline';
+                    }
+                    return <Icon name={iconName} size={size} color={darkTheme.COLORED_BUTTON} />;
+                },
+                tabBarLabelStyle: {
+                    color: theme.SECONDARY_COLOR,
+                },
+                tabBarStyle: {
+                    backgroundColor: theme.BUTTON_COLOR,
+                },
 
-            headerShown: false,
-        })}
-    >
-        <Home.Screen name={HomeStackNavigationName.HOME} component={HomeScreen} />
-        <Home.Screen name={HomeStackNavigationName.FAVORITE} component={FavoriteScreen} />
-        <Home.Screen name={HomeStackNavigationName.NOTIFICATION} component={NotificationScreen} />
-        <Home.Screen name={HomeStackNavigationName.PROFILE} component={ProfileScreen} />
-    </Home.Navigator>
-);
+                headerShown: false,
+            })}
+        >
+            <Home.Screen name={HomeStackNavigationName.HOME} component={HomeScreen} />
+            <Home.Screen name={HomeStackNavigationName.FAVORITE} component={FavoriteScreen} />
+            <Home.Screen name={HomeStackNavigationName.NOTIFICATION} component={NotificationScreen} />
+            <Home.Screen name={HomeStackNavigationName.PROFILE} component={ProfileScreen} />
+        </Home.Navigator>
+    );
+};

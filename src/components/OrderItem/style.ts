@@ -30,7 +30,7 @@ export const FoodImage = styled.Image`
 `;
 
 export const OrderItemContainer = styled.View<{ theme: typeof darkTheme }>`
-    background-color: ${(props) => props.theme['PRIMARY_COLOR']};
+    background-color: ${(props) => props.theme['BUTTON_COLOR']};
     border-radius: 10px;
     margin-top: 30px;
     width: ${width * 0.9}px;

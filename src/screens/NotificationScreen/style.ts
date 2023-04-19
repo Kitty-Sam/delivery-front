@@ -6,11 +6,14 @@ export const TitleText = styled.Text<{ theme: typeof darkTheme }>`
     color: ${(props) => props.theme['TEXT_COLOR']};
     font-weight: 700;
     font-size: 24px;
+    margin-left: 30px;
+    margin-top: 20px;
 `;
 
-export const RootContainer = styled.SafeAreaView`
+export const RootContainer = styled.SafeAreaView<{ theme: typeof darkTheme }>`
     flex: 1;
-    margin: 20px;
+    padding: 20px;
+    background-color: ${(props) => props.theme['BACKGROUND_COLOR']};
 `;
 
 export const NameText = styled.Text<{ theme: typeof darkTheme }>`
@@ -28,7 +31,7 @@ export const DescriptionText = styled.Text<{ theme: typeof darkTheme }>`
 `;
 
 export const CourierContainer = styled.View<{ theme: typeof darkTheme }>`
-    background-color: ${(props) => props.theme['PRIMARY_COLOR']};
+    background-color: ${(props) => props.theme['BUTTON_COLOR']};
     border-radius: 20px;
     padding: 20px;
     justify-content: center;
