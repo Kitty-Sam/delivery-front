@@ -1,13 +1,19 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+
+import { IFood } from '~src/redux/slices/foodSlice';
+
 export enum RootStackNavigationName {
-    HOME = 'Home',
+    HOMESTACK = 'HomeStack',
     ORDER = 'Order',
-    NOTIFICATION = 'Notification',
-    PROFILE = 'Profile',
+    DETAILS = ' ',
 }
 
 export type RootStackParamList = {
-    [RootStackNavigationName.HOME]: undefined;
+    [RootStackNavigationName.HOMESTACK]: undefined;
     [RootStackNavigationName.ORDER]: undefined;
-    [RootStackNavigationName.NOTIFICATION]: undefined;
-    [RootStackNavigationName.PROFILE]: undefined;
+    [RootStackNavigationName.DETAILS]: { food: IFood };
 };
+
+export type HomeScreenProps = NativeStackScreenProps<RootStackParamList, RootStackNavigationName.HOMESTACK>;
+export type DetailScreenProps = NativeStackScreenProps<RootStackParamList, RootStackNavigationName.DETAILS>;
+export type OrderScreenProps = NativeStackScreenProps<RootStackParamList, RootStackNavigationName.ORDER>;

@@ -1,31 +1,44 @@
+import { useIsFocused } from '@react-navigation/native';
 import React, { FC } from 'react';
-import { Button, Text, TextInput, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { CustomModal } from '~components/CustomModal';
+import { LogoBlock } from '~components/LogoBlock';
+import { Error } from '~components/Modals/Error';
+import { ButtonSquare } from '~components/shared/Button/ButtonSquare';
+import { FormInput } from '~components/shared/Input/FormInput';
 import { useInput } from '~hooks/useInput';
-import { AuthStackNavigationName, LoginScreenProps } from '~navigation/AuthStack/type';
+import { LoginScreenProps } from '~navigation/AuthStack/type';
+import { Container, InputsContainer } from '~screens/LoginScreen/style';
 import { useLoginUserMutation } from '~src/redux/api/authApi';
+import { getModalType } from '~src/redux/selectors';
+import { setModalType } from '~src/redux/slices/modalSlice';
+import { useAppDispatch, useAppSelector } from '~src/redux/store';
 
-export const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
+export const LoginScreen: FC<LoginScreenProps> = () => {
     const email = useInput('');
     const password = useInput('');
+    const isFocused = useIsFocused();
 
     const inputs = [
         {
             id: '1',
             value: email.value,
             onChange: email.setValue,
-            placeholder: 'Enter your email',
+            label: 'Email Address',
         },
         {
             id: '2',
             value: password.value,
             onChange: password.setValue,
-            placeholder: 'Enter your password',
+            label: 'Password',
         },
     ];
 
     const [login] = useLoginUserMutation();
+
+    const dispatch = useAppDispatch();
+
+    const modalType = useAppSelector(getModalType);
 
     const loginPress = async () => {
         try {
@@ -33,24 +46,27 @@ export const LoginScreen: FC<LoginScreenProps> = ({ navigation }) => {
             email.clear();
             password.clear();
         } catch (e: any) {
+            dispatch(setModalType({ type: 'error' }));
             console.log('error login', e.message());
         }
     };
 
-    const registerNavigate = () => {
-        navigation.navigate(AuthStackNavigationName.REGISTER);
-    };
-
     return (
-        <SafeAreaView>
-            <Text>Login</Text>
-            {inputs.map(({ value, onChange, placeholder, id }) => (
-                <TextInput placeholder={placeholder} value={value} onChangeText={onChange} key={id} />
-            ))}
-            <Button title="Login" onPress={loginPress} disabled={!email.value || !password.value} />
-            <TouchableOpacity onPress={registerNavigate}>
-                <Text>Dont have account yet?</Text>
-            </TouchableOpacity>
-        </SafeAreaView>
+        <Container>
+            <LogoBlock screen={isFocused ? 'Login' : 'Register'} />
+            <InputsContainer>
+                {inputs.map(({ value, onChange, id, label }) => (
+                    <FormInput value={value} onChangeText={onChange} key={id} label={label} />
+                ))}
+            </InputsContainer>
+
+            <ButtonSquare title="Login" onPress={loginPress} disabled={!email.value || !password.value} />
+
+            {modalType === 'error' && (
+                <CustomModal>
+                    <Error />
+                </CustomModal>
+            )}
+        </Container>
     );
 };
