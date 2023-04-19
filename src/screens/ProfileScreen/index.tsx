@@ -1,73 +1,92 @@
-import { CardField, confirmPayment } from '@stripe/stripe-react-native';
+import { CardField, confirmPayment, initStripe } from '@stripe/stripe-react-native';
 import React, { useState } from 'react';
-import { Alert, Image, TouchableOpacity, View } from 'react-native';
+import { Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { initAvatar } from '~components/AvatarBlock/config';
 import { ButtonSquare } from '~components/shared/Button/ButtonSquare';
-import { CardContainer, ChapterText, NameText, RootContainer, TitleText } from '~screens/ProfileScreen/style';
+import {
+    AvatarBlock,
+    AvatarImage,
+    ButtonContainer,
+    CardContainer,
+    ChapterText,
+    CheckBoxContainer,
+    MethodPaymentContainer,
+    NameText,
+    RootContainer,
+    TextAvatarBlock,
+    TitleText,
+} from '~screens/ProfileScreen/style';
 import { BASE_URL_IOS } from '~src/contants/baseURL';
 import { getCurrentUser } from '~src/redux/selectors';
-import { useAppSelector } from '~src/redux/store';
+import { logOut } from '~src/redux/slices/userSlice';
+import { useAppDispatch, useAppSelector } from '~src/redux/store';
 
 export const ProfileScreen = () => {
     const currentUser = useAppSelector(getCurrentUser);
     const [method, setMethod] = useState('');
 
-    const amount = 50;
-    const name = 'Egor';
-    const PUBLIC_KEY =
-        'pk_test_51LYUtmFO7YbklW5JGiQCAJrUodfACYBcJvVej3LwzUPXLY2GgrDDHD7XIa2gPtFNaVKE8Bif6EQeDwXVdPaeKakT007KJ5nXYd';
-    const SECRET_KEY =
-        'sk_test_51LYUtmFO7YbklW5JODuwshD7leP1MQQY4ZtbiD9geanU9MY60WjwolO9EEnL0pdEpzfWkcg9QP0OQa1j1qDlmqI200hmfrZHg6';
+    const billingDetails = {
+        email: 'jenny.rosen@example.com',
+    };
 
     const payPress = async () => {
-        console.log('pay press', amount);
-
+        await initStripe({
+            publishableKey:
+                'pk_test_51LYUtmFO7YbklW5JGiQCAJrUodfACYBcJvVej3LwzUPXLY2GgrDDHD7XIa2gPtFNaVKE8Bif6EQeDwXVdPaeKakT007KJ5nXYd',
+        });
         try {
-            const response = await fetch(`${BASE_URL_IOS}/create-payment-intent`, {
+            const response = await fetch(`${BASE_URL_IOS}/payment`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ currency: 'usd', amount }),
+                body: JSON.stringify({ currency: 'usd', amount: 50, payment_method_types: ['Card'] }),
             });
             const paymentIntents = await response.json();
 
-            console.log('paymentIntents', paymentIntents.client_secret);
+            console.log('paymentIntents', paymentIntents);
 
             const clientSecret = paymentIntents.client_secret;
 
+            console.log('clientSecret', clientSecret);
+
             const { error, paymentIntent } = await confirmPayment(clientSecret, {
                 paymentMethodType: 'Card',
-                paymentMethodData: { billingDetails: { name } },
+                paymentMethodData: {
+                    billingDetails,
+                },
             });
 
-            console.log('paymentIntent', paymentIntent);
-
             if (error) {
-                console.log('error', error.message);
+                console.log(`error`, error.message);
             } else if (paymentIntent) {
                 Alert.alert(`Thanks for your payment`);
             }
         } catch (ERROR: any) {
-            console.log('error ERROR', ERROR.message);
+            console.log('ERROR', ERROR.message);
         }
+    };
+
+    const dispatch = useAppDispatch();
+
+    const logoutPress = () => {
+        dispatch(logOut());
     };
 
     return (
         <RootContainer>
             <TitleText>My Profile</TitleText>
-            <View style={{ flexDirection: 'row', padding: 30 }}>
-                <Image
-                    source={{ uri: currentUser!.avatar ? currentUser!.avatar : initAvatar }}
-                    style={{ width: 80, height: 80, borderRadius: 40 }}
-                />
-                <View style={{ paddingLeft: 10, justifyContent: 'center' }}>
+
+            <AvatarBlock>
+                <AvatarImage source={{ uri: currentUser!.avatar ? currentUser!.avatar : initAvatar }} />
+                <TextAvatarBlock>
                     <NameText>{currentUser!.name}</NameText>
                     <NameText>{currentUser!.email}</NameText>
-                </View>
-            </View>
+                    <Icon name="sign-out" onPress={logoutPress} size={24} />
+                </TextAvatarBlock>
+            </AvatarBlock>
 
             <ChapterText>My Card</ChapterText>
             <CardContainer>
@@ -75,71 +94,52 @@ export const ProfileScreen = () => {
                     onCardChange={(cardDetails) => console.log(cardDetails)}
                     postalCodeEnabled={false}
                     cardStyle={{
-                        borderColor: 'red',
+                        borderColor: 'black',
                         borderWidth: 1,
                         borderRadius: 8,
+                    }}
+                    placeholders={{
+                        number: '4242 4242 4242 4242',
                     }}
                     style={{ width: '100%', height: 50 }}
                 />
             </CardContainer>
             <ChapterText>Payments method</ChapterText>
             <CardContainer>
-                <View
-                    style={{
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        padding: 10,
-                        backgroundColor: method === 'credit card' ? 'black' : 'white',
-                    }}
-                >
+                <MethodPaymentContainer>
                     <Icon name="credit-card" size={18} />
                     <NameText>Credit Card</NameText>
-                    <TouchableOpacity
+                    <CheckBoxContainer
                         onPress={() => setMethod('credit')}
                         style={{
-                            width: 20,
-                            height: 20,
-                            borderColor: 'black',
-                            borderWidth: 1,
-                            borderRadius: 10,
                             backgroundColor: method === 'credit' ? 'black' : 'white',
                         }}
                     />
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
+                </MethodPaymentContainer>
+                <MethodPaymentContainer>
                     <Icon name="paypal" size={18} />
                     <NameText>Paypal</NameText>
-                    <TouchableOpacity
+                    <CheckBoxContainer
                         onPress={() => setMethod('paypal')}
                         style={{
-                            width: 20,
-                            height: 20,
-                            borderColor: 'black',
-                            borderWidth: 1,
-                            borderRadius: 10,
                             backgroundColor: method === 'paypal' ? 'black' : 'white',
                         }}
                     />
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10 }}>
+                </MethodPaymentContainer>
+                <MethodPaymentContainer>
                     <Icon name="google" size={18} />
                     <NameText>Google pay</NameText>
-                    <TouchableOpacity
+                    <CheckBoxContainer
                         onPress={() => setMethod('google')}
                         style={{
-                            width: 20,
-                            height: 20,
-                            borderColor: 'black',
-                            borderWidth: 1,
-                            borderRadius: 10,
                             backgroundColor: method === 'google' ? 'black' : 'white',
                         }}
                     />
-                </View>
+                </MethodPaymentContainer>
             </CardContainer>
-            <View style={{ paddingTop: 50, alignItems: 'center' }}>
+            <ButtonContainer>
                 <ButtonSquare title="pay" onPress={payPress} />
-            </View>
+            </ButtonContainer>
         </RootContainer>
     );
 };

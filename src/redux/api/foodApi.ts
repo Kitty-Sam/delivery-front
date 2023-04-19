@@ -46,7 +46,7 @@ export const foodsApi = createApi({
         filterFood: builder.mutation<IFood[], { foodName: string }>({
             query(data) {
                 return {
-                    url: '/filter',
+                    url: 'filter',
                     method: 'POST',
                     body: data,
                 };

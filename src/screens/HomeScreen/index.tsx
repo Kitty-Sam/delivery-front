@@ -24,7 +24,6 @@ import { darkTheme, lightTheme } from '~src/contants/theme';
 import { useFilterFoodByCategoryMutation, useGetAllCategoriesQuery, useGetAllFoodsQuery } from '~src/redux/api/foodApi';
 import { getFilteredFoods, getModalType } from '~src/redux/selectors';
 import { IFood, setFilteredFoods } from '~src/redux/slices/foodSlice';
-import { logOut } from '~src/redux/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '~src/redux/store';
 
 export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
@@ -71,10 +70,6 @@ export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
         [category],
     );
 
-    const logoutPress = () => {
-        dispatch(logOut());
-    };
-
     const onBucketPress = () => {
         // @ts-ignore
         navigation.navigate(RootStackNavigationName.ORDER);
@@ -82,7 +77,6 @@ export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
 
     return (
         <RootContainer>
-            {/* <Button title="logout" onPress={logoutPress} /> */}
             <AvatarBlock title="Lets eat  Quality food" />
             <SearchBar search={search} setSearch={setSearch} filterHandler={filterBySearch} />
             <CategoriesContainer>

@@ -14,7 +14,14 @@ import { store, useAppSelector } from '~src/redux/store';
 export const App = () => {
     const isLoggedIn = useAppSelector(getIsLoggedIn);
 
-    return <NavigationContainer>{isLoggedIn ? <RootStack /> : <AuthStack />}</NavigationContainer>;
+    return (
+        <StripeProvider
+            publishableKey="pk_test_51LYUtmFO7YbklW5JGiQCAJrUodfACYBcJvVej3LwzUPXLY2GgrDDHD7XIa2gPtFNaVKE8Bif6EQeDwXVdPaeKakT007KJ5nXYd
+"
+        >
+            <NavigationContainer>{isLoggedIn ? <RootStack /> : <AuthStack />}</NavigationContainer>
+        </StripeProvider>
+    );
 };
 
 export const ReduxApp = () => {
@@ -44,15 +51,10 @@ export const ReduxApp = () => {
     };
 
     return (
-        <StripeProvider
-            publishableKey="pk_test_51LYUtmFO7YbklW5JGiQCAJrUodfACYBcJvVej3LwzUPXLY2GgrDDHD7XIa2gPtFNaVKE8Bif6EQeDwXVdPaeKakT007KJ5nXYd
-"
-        >
-            <Provider store={store}>
-                <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
-                    <App />
-                </ThemeProvider>
-            </Provider>
-        </StripeProvider>
+        <Provider store={store}>
+            <ThemeProvider theme={theme === 'dark' ? darkTheme : lightTheme}>
+                <App />
+            </ThemeProvider>
+        </Provider>
     );
 };
