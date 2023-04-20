@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 
 import { BASE_URL_ANDROID, BASE_URL_IOS } from '~src/contants/baseURL';
 import { IOrder } from '~src/redux/slices/bucketSlice';
-import { IFood, setAllFoods, setFavoriteFilteredFoods, setFilteredFoods } from '~src/redux/slices/foodSlice';
+import { IFood, setFavoriteFilteredFoods, setFilteredFoods } from '~src/redux/slices/foodSlice';
 import { setModalType } from '~src/redux/slices/modalSlice';
 import { IUser, setCurrentUser } from '~src/redux/slices/userSlice';
 
@@ -12,16 +12,11 @@ export const foodsApi = createApi({
     baseQuery: fetchBaseQuery({
         baseUrl: Platform.OS === 'android' ? `${BASE_URL_ANDROID}` : `${BASE_URL_IOS}`,
     }),
-    tagTypes: ['Food'],
+    tagTypes: ['Foods'],
     endpoints: (builder) => ({
         getAllFoods: builder.query<IFood[], void>({
             query: () => 'foods',
-            providesTags: (result) =>
-                result ? [...result.map(({ id }) => ({ type: 'Food' as const, id })), 'Food'] : ['Food'],
-            async onQueryStarted(_args, { dispatch, queryFulfilled }) {
-                const { data } = await queryFulfilled;
-                dispatch(setAllFoods(data));
-            },
+            providesTags: ['Foods'],
         }),
 
         addToFavoriteFood: builder.mutation<IFood, { userId: number; foodId: number }>({

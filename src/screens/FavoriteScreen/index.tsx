@@ -15,14 +15,13 @@ import {
     styles,
     TextCategory,
 } from '~screens/HomeScreen/style';
-import { darkTheme, lightTheme } from '~src/contants/theme';
+import { darkTheme } from '~src/contants/theme';
 import { useFilterFavoriteFoodByCategoryMutation, useGetAllCategoriesQuery } from '~src/redux/api/foodApi';
 import { getCurrentUser, getFavoriteFilteredFoods, getModalType } from '~src/redux/selectors';
 import { IFood, setFavoriteFilteredFoods } from '~src/redux/slices/foodSlice';
 import { useAppDispatch, useAppSelector } from '~src/redux/store';
 
 export const FavoriteScreen = () => {
-    const { search, setSearch, filterFavoriteBySearch } = useSearch();
     const [category, setCategory] = useState('');
 
     const currentUser = useAppSelector(getCurrentUser);
@@ -30,9 +29,12 @@ export const FavoriteScreen = () => {
     const modalType = useAppSelector(getModalType);
 
     const { data: categories } = useGetAllCategoriesQuery();
+
     const [filterFavoriteFoodByCategory] = useFilterFavoriteFoodByCategoryMutation();
 
     const dispatch = useAppDispatch();
+
+    const { search, setSearch, filterFavoriteBySearch } = useSearch();
 
     useEffect(() => {
         if (!search) {

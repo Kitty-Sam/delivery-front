@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { FC, useState } from 'react';
-import { Dimensions, TouchableOpacity, View } from 'react-native';
+import React, { FC } from 'react';
+import { TouchableOpacity } from 'react-native';
 
 import { AdditionalText, Container, Image, LinksContainer, TitleText } from '~components/LogoBlock/style';
 import { AuthStackNavigationName } from '~navigation/AuthStack/type';

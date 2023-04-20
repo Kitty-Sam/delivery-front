@@ -1,11 +1,15 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CardField, confirmPayment, initStripe } from '@stripe/stripe-react-native';
-import React, { useState } from 'react';
-import { Alert } from 'react-native';
+import React, { FC, useState } from 'react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTheme } from 'styled-components';
 
 import { initAvatar } from '~components/AvatarBlock/config';
+import { CustomModal } from '~components/CustomModal';
+import { Payment } from '~components/Modals/Payment';
+import { Wait } from '~components/Modals/Wait';
 import { ButtonSquare } from '~components/shared/Button/ButtonSquare';
+import { ProfileScreenProps } from '~navigation/HomeStack/type';
 import {
     AvatarBlock,
     AvatarImage,
@@ -16,40 +20,47 @@ import {
     MethodPaymentContainer,
     NameText,
     RootContainer,
+    styles,
     TextAvatarBlock,
+    TitleAndChangeThemeBlock,
     TitleText,
 } from '~screens/ProfileScreen/style';
-import { BASE_URL_IOS } from '~src/contants/baseURL';
-import { getCurrentUser } from '~src/redux/selectors';
-import { logOut } from '~src/redux/slices/userSlice';
+import { publishKey } from '~src/contants/stripeKey';
+import { getCurrentTheme, getCurrentUser, getModalType } from '~src/redux/selectors';
+import { setModalType } from '~src/redux/slices/modalSlice';
+import { logOut, setTheme } from '~src/redux/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '~src/redux/store';
+import { paymentService } from '~utils/paymentService';
 
-export const ProfileScreen = () => {
-    const currentUser = useAppSelector(getCurrentUser);
+const paymentMethods = [
+    { id: 1, title: 'Credit Card', icon: 'credit-card' },
+    { id: 2, title: 'Pay pal', icon: 'paypal' },
+    { id: 3, title: 'Google Pay', icon: 'google' },
+];
+
+export const ProfileScreen: FC<ProfileScreenProps> = ({ route }) => {
+    // @ts-ignore
+    const { total } = route.params ? route.params : 0;
+
     const [method, setMethod] = useState('');
 
-    const theme: any = useTheme();
+    const currentUser = useAppSelector(getCurrentUser);
+    const modalType = useAppSelector(getModalType);
 
     const billingDetails = {
-        email: 'jenny.rosen@example.com',
+        email: currentUser!.email,
     };
+
+    const dispatch = useAppDispatch();
 
     const payPress = async () => {
         await initStripe({
-            publishableKey:
-                'pk_test_51LYUtmFO7YbklW5JGiQCAJrUodfACYBcJvVej3LwzUPXLY2GgrDDHD7XIa2gPtFNaVKE8Bif6EQeDwXVdPaeKakT007KJ5nXYd',
+            publishableKey: publishKey,
         });
         try {
-            const response = await fetch(`${BASE_URL_IOS}/payment`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ currency: 'usd', amount: 50, payment_method_types: ['Card'] }),
-            });
-            const paymentIntents = await response.json();
+            dispatch(setModalType({ type: 'wait' }));
 
-            const clientSecret = paymentIntents.client_secret;
+            const clientSecret: string = await paymentService(total);
 
             const { error, paymentIntent } = await confirmPayment(clientSecret, {
                 paymentMethodType: 'Card',
@@ -61,22 +72,49 @@ export const ProfileScreen = () => {
             if (error) {
                 console.log(`error`, error.message);
             } else if (paymentIntent) {
-                Alert.alert(`Thanks for your payment`);
+                dispatch(setModalType({ type: 'payment' }));
             }
-        } catch (ERROR: any) {
-            console.log('ERROR', ERROR.message);
+        } catch (e: any) {
+            console.log('e', e.message);
         }
     };
-
-    const dispatch = useAppDispatch();
 
     const logoutPress = () => {
         dispatch(logOut());
     };
 
+    const themeRedux = useAppSelector(getCurrentTheme);
+    const toggleTheme = async () => {
+        const themeValue = themeRedux === 'dark' ? 'light' : 'dark';
+        try {
+            await AsyncStorage.setItem('@theme', themeValue);
+            dispatch(setTheme(themeValue));
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const onPaymentMethodPress = (methodValue: string) => () => {
+        if (method === methodValue) {
+            setMethod('');
+            return;
+        }
+        setMethod(methodValue);
+    };
+
+    const theme: any = useTheme();
+
     return (
         <RootContainer>
-            <TitleText>My Profile</TitleText>
+            <TitleAndChangeThemeBlock>
+                <TitleText>My Profile</TitleText>
+                <Icon
+                    name={themeRedux === 'dark' ? 'moon-o' : 'sun-o'}
+                    onPress={toggleTheme}
+                    size={24}
+                    color={theme.TITLE_COLOR}
+                />
+            </TitleAndChangeThemeBlock>
 
             <AvatarBlock>
                 <AvatarImage source={{ uri: currentUser!.avatar ? currentUser!.avatar : initAvatar }} />
@@ -92,53 +130,40 @@ export const ProfileScreen = () => {
                 <CardField
                     onCardChange={(cardDetails) => console.log(cardDetails)}
                     postalCodeEnabled={false}
-                    cardStyle={{
-                        borderColor: 'black',
-                        borderWidth: 1,
-                        borderRadius: 8,
-                    }}
+                    cardStyle={styles.card}
                     placeholders={{
                         number: '4242 4242 4242 4242',
                     }}
-                    style={{ width: '100%', height: 50 }}
+                    style={styles.wrapper}
                 />
             </CardContainer>
             <ChapterText>Payments method</ChapterText>
             <CardContainer>
-                <MethodPaymentContainer>
-                    <Icon name="credit-card" size={18} color={theme.TITLE_COLOR} />
-                    <NameText>Credit Card</NameText>
-                    <CheckBoxContainer
-                        onPress={() => setMethod('credit')}
-                        style={{
-                            backgroundColor: method === 'credit' ? 'black' : 'white',
-                        }}
-                    />
-                </MethodPaymentContainer>
-                <MethodPaymentContainer>
-                    <Icon name="paypal" size={18} color={theme.TITLE_COLOR} />
-                    <NameText>Paypal</NameText>
-                    <CheckBoxContainer
-                        onPress={() => setMethod('paypal')}
-                        style={{
-                            backgroundColor: method === 'paypal' ? 'black' : 'white',
-                        }}
-                    />
-                </MethodPaymentContainer>
-                <MethodPaymentContainer>
-                    <Icon name="google" size={18} color={theme.TITLE_COLOR} />
-                    <NameText>Google pay</NameText>
-                    <CheckBoxContainer
-                        onPress={() => setMethod('google')}
-                        style={{
-                            backgroundColor: method === 'google' ? 'black' : 'white',
-                        }}
-                    />
-                </MethodPaymentContainer>
+                {paymentMethods.map((payMethod) => (
+                    <MethodPaymentContainer key={payMethod.id}>
+                        <Icon name={payMethod.icon} size={18} color={theme.TITLE_COLOR} />
+                        <NameText>{payMethod.title}</NameText>
+                        <CheckBoxContainer
+                            onPress={onPaymentMethodPress(payMethod.title)}
+                            style={{
+                                backgroundColor: method === payMethod.title ? theme.BLACK : theme.WHITE,
+                            }}
+                        />
+                    </MethodPaymentContainer>
+                ))}
             </CardContainer>
-            <ButtonContainer>
-                <ButtonSquare title="pay" onPress={payPress} />
-            </ButtonContainer>
+            <ButtonContainer>{total && <ButtonSquare title="pay" onPress={payPress} />}</ButtonContainer>
+
+            {modalType === 'payment' && (
+                <CustomModal>
+                    <Payment />
+                </CustomModal>
+            )}
+            {modalType === 'wait' && (
+                <CustomModal>
+                    <Wait />
+                </CustomModal>
+            )}
         </RootContainer>
     );
 };

@@ -1,3 +1,4 @@
+import { StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 
 import { height, width } from '~src/contants/dimensions';
@@ -54,3 +55,14 @@ export const FoodImage = styled.Image<{ theme: typeof darkTheme }>`
     height: ${height * 0.3}px;
     border-bottom-left-radius: 20px;
 `;
+
+export const styles = StyleSheet.create({
+    backIcon: {
+        position: 'absolute',
+        left: 10,
+        top: 40,
+    },
+    alarmIcon: {
+        paddingLeft: 20,
+    },
+});

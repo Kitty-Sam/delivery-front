@@ -14,15 +14,16 @@ import {
     TextContainer,
     TitleText,
 } from '~screens/NotificationScreen/style';
-import { getCouriers } from '~src/redux/selectors';
+import { getCouriersWithOrders } from '~src/redux/selectors';
+import { ICourierWithOrder } from '~src/redux/slices/userSlice';
 import { useAppSelector } from '~src/redux/store';
 
 export const NotificationScreen = () => {
-    const couriers = useAppSelector(getCouriers);
+    const couriers = useAppSelector(getCouriersWithOrders);
     const theme: any = useTheme();
 
     const renderCourierItem = useCallback(
-        ({ item }: { item: any }) => (
+        ({ item }: { item: ICourierWithOrder }) => (
             <CourierContainer>
                 <PersonalInfoContainer>
                     <ImageWrapper source={{ uri: item.courier.avatar }} />
@@ -44,7 +45,7 @@ export const NotificationScreen = () => {
                 </AdditionalInfoContainer>
             </CourierContainer>
         ),
-        [],
+        [theme.TITLE_COLOR],
     );
 
     return (

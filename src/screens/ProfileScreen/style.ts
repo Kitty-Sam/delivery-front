@@ -1,3 +1,4 @@
+import { StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 
 import { darkTheme } from '~src/contants/theme';
@@ -6,8 +7,6 @@ export const TitleText = styled.Text<{ theme: typeof darkTheme }>`
     color: ${(props) => props.theme['TEXT_COLOR']};
     font-weight: 700;
     font-size: 24px;
-    margin-left: 30px;
-    margin-top: 20px;
 `;
 
 export const ChapterText = styled.Text<{ theme: typeof darkTheme }>`
@@ -75,3 +74,24 @@ export const ButtonContainer = styled.View`
     padding-top: 50px;
     align-items: center;
 `;
+
+export const TitleAndChangeThemeBlock = styled.View`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-left: 30px;
+    padding-right: 30px;
+`;
+
+export const styles = StyleSheet.create({
+    card: {
+        borderColor: 'black',
+        borderWidth: 1,
+        borderRadius: 8,
+    },
+    wrapper: {
+        width: '100%',
+        height: 50,
+    },
+});

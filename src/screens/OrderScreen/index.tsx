@@ -22,19 +22,17 @@ import { useAppDispatch, useAppSelector } from '~src/redux/store';
 
 export const OrderScreen: FC<OrderScreenProps> = ({ navigation }) => {
     const orders = useAppSelector(getBucketOrders);
-    const courierId = Math.floor(Math.random() * 3) + 1;
-
     const currentUser = useAppSelector(getCurrentUser);
 
     const { refetch } = useGetUserByIdQuery(currentUser!.id);
 
-    const ordersNormalized = [...new Set(orders)];
-
     const [createOrder] = useCreateOrderMutation();
 
-    const dispatch = useAppDispatch();
-
+    const ordersNormalized = [...new Set(orders)];
     const totalPrice = orders.reduce((acc, obj) => acc + Number(obj.order.price) * obj.count, 0);
+    const courierId = Math.floor(Math.random() * 3) + 1;
+
+    const dispatch = useAppDispatch();
 
     const confirmOrderPress = async () => {
         await createOrder({
@@ -45,7 +43,8 @@ export const OrderScreen: FC<OrderScreenProps> = ({ navigation }) => {
         }).unwrap();
         refetch();
         // @ts-ignore
-        navigation.navigate(HomeStackNavigationName.NOTIFICATION);
+        // navigation.navigate(HomeStackNavigationName.NOTIFICATION);
+        navigation.navigate(HomeStackNavigationName.PROFILE, { total: totalPrice });
         dispatch(clearBucket());
     };
 

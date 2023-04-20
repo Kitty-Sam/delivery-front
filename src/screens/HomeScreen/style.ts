@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 
+import { width } from '~src/contants/dimensions';
 import { darkTheme } from '~src/contants/theme';
 
 export const Container = styled.TouchableOpacity<{ theme: typeof darkTheme }>`
@@ -77,13 +78,18 @@ export const FavoriteContainer = styled.View<{ theme: typeof darkTheme }>`
     align-items: center;
 `;
 
-export const styles = StyleSheet.create({
-    wrapper: {
-        justifyContent: 'space-between',
-    },
-});
-
 export const FoodContainer = styled.View`
     flex: 1;
     padding: 10px;
 `;
+
+export const styles = StyleSheet.create({
+    wrapper: {
+        justifyContent: 'space-between',
+    },
+    bucketIcon: {
+        position: 'absolute',
+        bottom: 0,
+        left: width / 2.2,
+    },
+});

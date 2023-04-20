@@ -1,5 +1,6 @@
-import React, { FC, useCallback, useEffect, useState } from 'react';
-import { FlatList } from 'react-native';
+import { NavigationContext } from '@react-navigation/native';
+import React, { FC, useCallback, useContext, useEffect, useState } from 'react';
+import { FlatList, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import { AvatarBlock } from '~components/AvatarBlock';
@@ -19,25 +20,27 @@ import {
     styles,
     TextCategory,
 } from '~screens/HomeScreen/style';
-import { width } from '~src/contants/dimensions';
 import { darkTheme } from '~src/contants/theme';
 import { useFilterFoodByCategoryMutation, useGetAllCategoriesQuery, useGetAllFoodsQuery } from '~src/redux/api/foodApi';
-import { getFilteredFoods, getModalType } from '~src/redux/selectors';
+import { getCurrentTheme, getFilteredFoods, getModalType } from '~src/redux/selectors';
 import { IFood, setFilteredFoods } from '~src/redux/slices/foodSlice';
 import { useAppDispatch, useAppSelector } from '~src/redux/store';
 
-export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
-    const { data: allFoods } = useGetAllFoodsQuery();
-    const { data: categories } = useGetAllCategoriesQuery();
-
-    const [filterFoodByCategory] = useFilterFoodByCategoryMutation();
-
+export const HomeScreen: FC<HomeScreenProps> = () => {
     const [category, setCategory] = useState('');
-
-    const dispatch = useAppDispatch();
 
     const modalType = useAppSelector(getModalType);
     const filteredFoods = useAppSelector(getFilteredFoods);
+
+    const { data: allFoods } = useGetAllFoodsQuery();
+    const { data: categories } = useGetAllCategoriesQuery();
+
+    // @ts-ignore
+    const { navigate } = useContext(NavigationContext);
+
+    const [filterFoodByCategory] = useFilterFoodByCategoryMutation();
+
+    const dispatch = useAppDispatch();
 
     const { search, setSearch, filterBySearch } = useSearch();
 
@@ -71,12 +74,14 @@ export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
     );
 
     const onBucketPress = () => {
-        // @ts-ignore
-        navigation.navigate(RootStackNavigationName.ORDER);
+        navigate(RootStackNavigationName.ORDER);
     };
+
+    const theme = useAppSelector(getCurrentTheme);
 
     return (
         <RootContainer>
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
             <AvatarBlock title="Lets eat  Quality food" />
             <SearchBar search={search} setSearch={setSearch} filterHandler={filterBySearch} />
             <CategoriesContainer>
@@ -103,7 +108,7 @@ export const HomeScreen: FC<HomeScreenProps> = ({ navigation }) => {
                 onPress={onBucketPress}
                 color={darkTheme.COLORED_BUTTON}
                 size={36}
-                style={{ position: 'absolute', bottom: 0, left: width / 2.2 }}
+                style={styles.bucketIcon}
             />
 
             {modalType === 'success' && (

@@ -11,7 +11,8 @@ export type HomeStackParamList = {
     [HomeStackNavigationName.HOME]: undefined;
     [HomeStackNavigationName.FAVORITE]: undefined;
     [HomeStackNavigationName.NOTIFICATION]: undefined;
-    [HomeStackNavigationName.PROFILE]: undefined;
+    [HomeStackNavigationName.PROFILE]: { total: number };
 };
 
 export type HomeScreenProps = BottomTabScreenProps<HomeStackParamList, HomeStackNavigationName.HOME>;
+export type ProfileScreenProps = BottomTabScreenProps<HomeStackParamList, HomeStackNavigationName.PROFILE>;

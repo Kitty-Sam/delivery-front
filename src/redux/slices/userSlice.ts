@@ -9,25 +9,31 @@ export interface IUser {
     avatar?: string;
     password: string;
     favorites: IFood[];
-    orders: any;
+    orders: ICourierWithOrder[];
 }
 
-export interface ICourier {
-    id: number;
-    name: string;
-    surname: string;
-    avatar: string;
-    phone: string;
+export interface ICourierWithOrder {
+    courier: {
+        avatar: string;
+        id: number;
+        name: string;
+        surname: string;
+        phone: string;
+    };
+    courierId: number;
+    total: number;
+    userId: number;
 }
-
 type UserState = {
     currentUser: IUser | null;
     isLoggedIn: boolean;
+    theme: null | 'dark' | 'light';
 };
 
 const initialState: UserState = {
     currentUser: null,
     isLoggedIn: false,
+    theme: null,
 };
 
 const userSlice = createSlice({
@@ -36,6 +42,9 @@ const userSlice = createSlice({
     reducers: {
         setCurrentUser: (state, action: PayloadAction<IUser>) => {
             state.currentUser = action.payload;
+        },
+        setTheme: (state, action: PayloadAction<any>) => {
+            state.theme = action.payload;
         },
         logIn: (state) => {
             state.isLoggedIn = true;
@@ -49,4 +58,4 @@ const userSlice = createSlice({
 
 export default userSlice.reducer;
 
-export const { setCurrentUser, logIn, logOut } = userSlice.actions;
+export const { setCurrentUser, logIn, logOut, setTheme } = userSlice.actions;

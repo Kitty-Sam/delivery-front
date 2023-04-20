@@ -10,6 +10,8 @@ const darkTheme = {
     COUNTER_COLORED_BUTTON: 'rgba(253, 194, 122, 0.1)',
     ICON_STAR_COLOR: '#e6cc00',
     ICON_ALARM_COLOR: '#990f02',
+    WHITE: '#fff',
+    BLACK: '#000',
 };
 const lightTheme = {
     PRIMARY_COLOR: '#fff',
@@ -23,5 +25,7 @@ const lightTheme = {
     COUNTER_COLORED_BUTTON: 'rgba(253, 194, 122, 0.1)',
     ICON_STAR_COLOR: '#e6cc00',
     ICON_ALARM_COLOR: '#990f02',
+    WHITE: '#fff',
+    BLACK: '#000',
 };
 export { darkTheme, lightTheme };

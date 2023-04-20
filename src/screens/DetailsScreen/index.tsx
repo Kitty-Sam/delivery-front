@@ -13,6 +13,7 @@ import {
     RootContainer,
     RowCenteredContainer,
     RowContainer,
+    styles,
     TextContainer,
 } from '~screens/DetailsScreen/style';
 import { darkTheme } from '~src/contants/theme';
@@ -21,12 +22,11 @@ import { addOrder } from '~src/redux/slices/bucketSlice';
 import { useAppDispatch, useAppSelector } from '~src/redux/store';
 
 export const DetailsScreen: FC<DetailScreenProps> = ({ route, navigation }) => {
-    const dispatch = useAppDispatch();
-
     const { food } = route.params;
 
     const { description, price, name, image, about } = food;
 
+    const dispatch = useAppDispatch();
     const addItem = () => {
         dispatch(addOrder({ orderItem: { count: 1, order: food } }));
         navigation.navigate(RootStackNavigationName.ORDER);
@@ -42,13 +42,7 @@ export const DetailsScreen: FC<DetailScreenProps> = ({ route, navigation }) => {
 
     return (
         <RootContainer>
-            <Icon
-                name="arrow-back"
-                size={28}
-                color={theme.TITLE_COLOR}
-                style={{ position: 'absolute', left: 10, top: 40 }}
-                onPress={goBackPress}
-            />
+            <Icon name="arrow-back" size={28} color={theme.TITLE_COLOR} style={styles.backIcon} onPress={goBackPress} />
             <FoodImage source={{ uri: image }} />
 
             <Gap />
@@ -65,12 +59,7 @@ export const DetailsScreen: FC<DetailScreenProps> = ({ route, navigation }) => {
                     <Icon name="star" size={24} color={darkTheme.ICON_STAR_COLOR} />
                     <AdditionalText>4.5</AdditionalText>
 
-                    <Icon
-                        name="alarm-outline"
-                        size={24}
-                        style={{ paddingLeft: 20 }}
-                        color={darkTheme.ICON_ALARM_COLOR}
-                    />
+                    <Icon name="alarm-outline" size={24} style={styles.alarmIcon} color={darkTheme.ICON_ALARM_COLOR} />
                     <AdditionalText>25 min</AdditionalText>
                 </RowCenteredContainer>
 

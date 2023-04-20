@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export interface IModal {
-    type: 'error' | 'success' | 'match' | null;
+    type: 'error' | 'success' | 'match' | 'wait' | 'payment' | null;
 }
 
 const initialState: IModal = {

@@ -8,8 +8,6 @@ export const usersApi = createApi({
     reducerPath: 'usersApi',
     baseQuery: fetchBaseQuery({
         baseUrl: Platform.OS === 'android' ? `${BASE_URL_ANDROID}` : `${BASE_URL_IOS}`,
-        credentials: 'include',
-        mode: 'cors',
     }),
     tagTypes: ['User'],
     endpoints: (builder) => ({
