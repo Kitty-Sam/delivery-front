@@ -9,10 +9,9 @@ export const TextTitle = styled.Text<{ theme: typeof darkTheme }>`
 `;
 
 export const Container = styled.View<{ theme: typeof darkTheme }>`
-    padding: 10px;
+    padding: 30px;
     background-color: ${(props) => props.theme['BUTTON_COLOR']};
     align-items: center;
-    justify-content: space-around;
     border-radius: 20px;
 `;
 
@@ -20,6 +19,4 @@ export const Container = styled.View<{ theme: typeof darkTheme }>`
 export const TitleContainer = styled.View<{ theme: typeof darkTheme }>`
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
-    width: 70%;
 `;

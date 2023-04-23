@@ -11,7 +11,7 @@ export const Success = () => {
 
     return (
         <Container>
-            <TextTitle>You successfully added this food position into your bucket ;)</TextTitle>
+            <TextTitle>This food position is added into bucket</TextTitle>
             <Icon name="close" onPress={onClosePress} size={24} />
         </Container>
     );

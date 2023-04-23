@@ -5,6 +5,7 @@ import { AvatarBlock } from '~components/AvatarBlock';
 import { CustomModal } from '~components/CustomModal';
 import { FoodItem } from '~components/FoodItem';
 import { Match } from '~components/Modals/Match';
+import { Success } from '~components/Modals/Success';
 import { SearchBar } from '~components/SearchBar';
 import { useSearch } from '~hooks/useSearch';
 import {
@@ -88,6 +89,12 @@ export const FavoriteScreen = () => {
                     showsVerticalScrollIndicator={false}
                 />
             </FoodContainer>
+
+            {modalType === 'success' && (
+                <CustomModal>
+                    <Success />
+                </CustomModal>
+            )}
 
             {modalType === 'match' && (
                 <CustomModal>

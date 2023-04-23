@@ -28,7 +28,13 @@ export const Address: FC<IAddress> = ({ address, setAddress }) => {
         <Container>
             <TitleContainer>
                 <TextTitle>Enter your address</TextTitle>
-                <Icon name="close" onPress={onClosePress} size={24} color={theme['TEXT_COLOR']} />
+                <Icon
+                    name="close"
+                    onPress={onClosePress}
+                    size={24}
+                    color={theme['TEXT_COLOR']}
+                    style={{ paddingLeft: 20 }}
+                />
             </TitleContainer>
             <Input value={address} onChangeText={setAddress} placeholder="Please, enter your address" />
             <ButtonCorner title="Add" onPress={onAddPress} />
