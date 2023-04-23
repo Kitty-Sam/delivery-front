@@ -1,14 +1,25 @@
-# delivery-front (for launch this app use Xcode and Android Studio)
+## Local setup
 
+1. Install environment for React Native development https://reactnative.dev/docs/environment-setup
 
-# installation
+2. Install dependencies
+
+```bash
 $ npm install
+```
 
+3. for IOS
 
+```bash
+$ react-native start
+$ react-native run-ios 
 
-# for IOS
-$ react-native start, $ react-native run-ios 
+```
 
+4. for Android
 
-# for Android
-$ react-native start, $ react-native run-android
+```bash
+$ react-native start
+$ react-native run-android
+
+```
