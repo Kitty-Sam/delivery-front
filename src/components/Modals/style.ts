@@ -13,4 +13,13 @@ export const Container = styled.View<{ theme: typeof darkTheme }>`
     background-color: ${(props) => props.theme['BUTTON_COLOR']};
     align-items: center;
     justify-content: space-around;
+    border-radius: 20px;
+`;
+
+// address modal
+export const TitleContainer = styled.View<{ theme: typeof darkTheme }>`
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%;
 `;

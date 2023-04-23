@@ -3,8 +3,7 @@ import styled from 'styled-components/native';
 import { darkTheme } from '~src/contants/theme';
 
 export const ButtonContainer = styled.TouchableOpacity<{ theme: typeof darkTheme }>`
-    width: 80%;
-    padding: 8px;
+    padding: 8px 10px;
     align-items: center;
     background-color: ${(props) => props.theme['COLORED_BUTTON']};
     border-top-right-radius: 10px;

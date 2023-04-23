@@ -27,6 +27,7 @@ import {
 } from '~screens/ProfileScreen/style';
 import { publishKey } from '~src/contants/stripeKey';
 import { getCurrentTheme, getCurrentUser, getModalType } from '~src/redux/selectors';
+import { clearBucket } from '~src/redux/slices/bucketSlice';
 import { setModalType } from '~src/redux/slices/modalSlice';
 import { logOut, setTheme } from '~src/redux/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '~src/redux/store';
@@ -80,6 +81,7 @@ export const ProfileScreen: FC<ProfileScreenProps> = ({ route }) => {
     };
 
     const logoutPress = () => {
+        dispatch(clearBucket());
         dispatch(logOut());
     };
 

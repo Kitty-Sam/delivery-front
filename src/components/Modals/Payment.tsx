@@ -7,11 +7,12 @@ import { useAppDispatch } from '~src/redux/store';
 
 export const Payment = () => {
     const dispatch = useAppDispatch();
+    const onClosePress = () => dispatch(removeModalType());
 
     return (
         <Container>
             <TextTitle>Thanks for your payment</TextTitle>
-            <Icon name="close" onPress={() => dispatch(removeModalType())} size={24} />
+            <Icon name="close" onPress={onClosePress} size={24} />
         </Container>
     );
 };

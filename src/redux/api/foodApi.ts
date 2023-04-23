@@ -9,6 +9,7 @@ import { IUser, setCurrentUser } from '~src/redux/slices/userSlice';
 
 export const foodsApi = createApi({
     reducerPath: 'foodApi',
+    refetchOnFocus: true,
     baseQuery: fetchBaseQuery({
         baseUrl: Platform.OS === 'android' ? `${BASE_URL_ANDROID}` : `${BASE_URL_IOS}`,
     }),
@@ -72,12 +73,24 @@ export const foodsApi = createApi({
                 }
             },
         }),
-        createOrder: builder.mutation<IUser, { userId: number; order: IOrder[]; courierId: number; total: number }>({
+        createOrder: builder.mutation<
+            IUser,
+            { userId: number; order: IOrder[]; courierId: number; total: number; address: string }
+        >({
             query(data) {
                 return {
                     url: 'user/order',
                     method: 'POST',
                     body: data,
+                };
+            },
+        }),
+
+        removeOrder: builder.mutation<IUser, { id: number }>({
+            query(data) {
+                return {
+                    url: `user/order/${String(data.id)}`,
+                    method: 'DELETE',
                 };
             },
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
@@ -153,4 +166,5 @@ export const {
     useGetAllCategoriesQuery,
     useFilterFoodByCategoryMutation,
     useFilterFavoriteFoodByCategoryMutation,
+    useRemoveOrderMutation,
 } = foodsApi;

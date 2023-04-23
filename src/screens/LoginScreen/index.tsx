@@ -1,5 +1,6 @@
 import { useIsFocused } from '@react-navigation/native';
 import React, { FC } from 'react';
+import { StatusBar } from 'react-native';
 
 import { CustomModal } from '~components/CustomModal';
 import { LogoBlock } from '~components/LogoBlock';
@@ -10,7 +11,7 @@ import { useInput } from '~hooks/useInput';
 import { LoginScreenProps } from '~navigation/AuthStack/type';
 import { Container, InputsContainer } from '~screens/LoginScreen/style';
 import { useLoginUserMutation } from '~src/redux/api/authApi';
-import { getModalType } from '~src/redux/selectors';
+import { getCurrentTheme, getModalType } from '~src/redux/selectors';
 import { setModalType } from '~src/redux/slices/modalSlice';
 import { useAppDispatch, useAppSelector } from '~src/redux/store';
 
@@ -50,9 +51,11 @@ export const LoginScreen: FC<LoginScreenProps> = () => {
             console.log('error login', e.message());
         }
     };
+    const theme = useAppSelector(getCurrentTheme);
 
     return (
         <Container>
+            <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
             <LogoBlock screen={isFocused ? 'Login' : 'Register'} />
             <InputsContainer>
                 {inputs.map(({ value, onChange, id, label }) => (

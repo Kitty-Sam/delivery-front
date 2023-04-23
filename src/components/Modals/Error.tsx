@@ -7,11 +7,12 @@ import { useAppDispatch } from '~src/redux/store';
 
 export const Error = () => {
     const dispatch = useAppDispatch();
+    const onClosePress = () => dispatch(removeModalType());
 
     return (
         <Container>
             <TextTitle>Something goes wrong, check your credentials</TextTitle>
-            <Icon name="close" onPress={() => dispatch(removeModalType())} size={24} />
+            <Icon name="close" onPress={onClosePress} size={24} />
         </Container>
     );
 };

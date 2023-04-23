@@ -11,6 +11,6 @@ export const CentredView = styled.View<{ theme: typeof darkTheme }>`
 
 export const ModalView = styled.View<{ theme: typeof darkTheme }>`
     background-color: ${(props) => props.theme['BACKGROUND_COLOR']};
-    border-radius: 10px;
+    border-radius: 20px;
     padding: 20px;
 `;

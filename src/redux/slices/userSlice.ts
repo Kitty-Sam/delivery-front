@@ -20,9 +20,12 @@ export interface ICourierWithOrder {
         surname: string;
         phone: string;
     };
+    id: number;
+    address: string;
     courierId: number;
     total: number;
     userId: number;
+    createdAt: any;
 }
 type UserState = {
     currentUser: IUser | null;

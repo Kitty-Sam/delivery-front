@@ -7,11 +7,12 @@ import { useAppDispatch } from '~src/redux/store';
 
 export const Success = () => {
     const dispatch = useAppDispatch();
+    const onClosePress = () => dispatch(removeModalType());
 
     return (
         <Container>
             <TextTitle>You successfully added this food position into your bucket ;)</TextTitle>
-            <Icon name="close" onPress={() => dispatch(removeModalType())} size={24} />
+            <Icon name="close" onPress={onClosePress} size={24} />
         </Container>
     );
 };

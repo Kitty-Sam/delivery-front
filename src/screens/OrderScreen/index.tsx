@@ -1,6 +1,10 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import { FlatList } from 'react-native';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { useTheme } from 'styled-components';
 
+import { CustomModal } from '~components/CustomModal';
+import { Address } from '~components/Modals/Address';
 import { OrderItem } from '~components/OrderItem';
 import { ButtonSquare } from '~components/shared/Button/ButtonSquare';
 import { HomeStackNavigationName } from '~navigation/HomeStack/type';
@@ -16,13 +20,15 @@ import {
 } from '~screens/OrderScreen/style';
 import { useCreateOrderMutation } from '~src/redux/api/foodApi';
 import { useGetUserByIdQuery } from '~src/redux/api/userApi';
-import { getBucketOrders, getCurrentUser } from '~src/redux/selectors';
+import { getBucketOrders, getCurrentUser, getModalType } from '~src/redux/selectors';
 import { clearBucket, IOrder } from '~src/redux/slices/bucketSlice';
+import { setModalType } from '~src/redux/slices/modalSlice';
 import { useAppDispatch, useAppSelector } from '~src/redux/store';
 
 export const OrderScreen: FC<OrderScreenProps> = ({ navigation }) => {
     const orders = useAppSelector(getBucketOrders);
     const currentUser = useAppSelector(getCurrentUser);
+    const modalType = useAppSelector(getModalType);
 
     const { refetch } = useGetUserByIdQuery(currentUser!.id);
 
@@ -32,6 +38,8 @@ export const OrderScreen: FC<OrderScreenProps> = ({ navigation }) => {
     const totalPrice = orders.reduce((acc, obj) => acc + Number(obj.order.price) * obj.count, 0);
     const courierId = Math.floor(Math.random() * 3) + 1;
 
+    const [address, setAddress] = useState('');
+
     const dispatch = useAppDispatch();
 
     const confirmOrderPress = async () => {
@@ -40,13 +48,18 @@ export const OrderScreen: FC<OrderScreenProps> = ({ navigation }) => {
             order: orders,
             courierId,
             total: totalPrice,
+            address: `${address.slice(0, 10)}...`,
         }).unwrap();
         refetch();
         // @ts-ignore
-        // navigation.navigate(HomeStackNavigationName.NOTIFICATION);
         navigation.navigate(HomeStackNavigationName.PROFILE, { total: totalPrice });
         dispatch(clearBucket());
     };
+    const addAddress = async () => {
+        dispatch(setModalType({ type: 'address' }));
+    };
+
+    const theme: any = useTheme();
 
     const onCloseModalPress = () => {
         navigation.navigate(RootStackNavigationName.HOMESTACK);
@@ -58,7 +71,7 @@ export const OrderScreen: FC<OrderScreenProps> = ({ navigation }) => {
         <RootContainer>
             <RowContainer>
                 <TitleText>My order</TitleText>
-                <TitleText onPress={onCloseModalPress}>x</TitleText>
+                <Icon name="close" onPress={onCloseModalPress} size={24} color={theme['TEXT_COLOR']} />
             </RowContainer>
             <FlatList data={ordersNormalized} renderItem={renderOrderItem} showsHorizontalScrollIndicator={false} />
             <BillContainer>
@@ -75,7 +88,16 @@ export const OrderScreen: FC<OrderScreenProps> = ({ navigation }) => {
                     <TitleText>{totalPrice}$</TitleText>
                 </RowBillContainerWithoutBorder>
             </BillContainer>
-            <ButtonSquare title="Confirm order" onPress={confirmOrderPress} />
+            <ButtonSquare
+                title={address ? 'Confirm order' : 'Add address'}
+                onPress={address ? confirmOrderPress : addAddress}
+            />
+
+            {modalType === 'address' && (
+                <CustomModal>
+                    <Address address={address} setAddress={setAddress} />
+                </CustomModal>
+            )}
         </RootContainer>
     );
 };

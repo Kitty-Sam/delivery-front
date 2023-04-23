@@ -60,7 +60,7 @@ export const DetailsScreen: FC<DetailScreenProps> = ({ route, navigation }) => {
                     <AdditionalText>4.5</AdditionalText>
 
                     <Icon name="alarm-outline" size={24} style={styles.alarmIcon} color={darkTheme.ICON_ALARM_COLOR} />
-                    <AdditionalText>25 min</AdditionalText>
+                    <AdditionalText>45 min</AdditionalText>
                 </RowCenteredContainer>
 
                 <NameAndPriceText>About</NameAndPriceText>

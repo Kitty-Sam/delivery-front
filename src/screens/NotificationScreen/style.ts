@@ -1,3 +1,4 @@
+import { StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 
 import { darkTheme } from '~src/contants/theme';
@@ -60,3 +61,11 @@ export const ImageWrapper = styled.Image`
     width: 80px;
     height: 80px;
 `;
+
+export const styles = StyleSheet.create({
+    binIcon: {
+        position: 'absolute',
+        right: -100,
+        top: 0,
+    },
+});
