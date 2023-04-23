@@ -85,7 +85,7 @@ export const RegisterScreen: FC<RegisterScreenProps> = ({ navigation }) => {
                     !password.value ||
                     !userName.value ||
                     !confirmPassword.value ||
-                    userName.value !== confirmPassword.value
+                    password.value !== confirmPassword.value
                 }
             />
 
