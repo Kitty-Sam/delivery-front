@@ -3,9 +3,9 @@ import { Platform } from 'react-native';
 
 import { BASE_URL_ANDROID, BASE_URL_IOS } from '~src/contants/baseURL';
 import { IOrder } from '~src/redux/slices/bucketSlice';
-import { IFood, setFavoriteFilteredFoods, setFilteredFoods } from '~src/redux/slices/foodSlice';
+import { IFood, setFilteredFoods } from '~src/redux/slices/foodSlice';
 import { setModalType } from '~src/redux/slices/modalSlice';
-import { IUser, setCurrentUser } from '~src/redux/slices/userSlice';
+import { setFavorites } from '~src/redux/slices/userSlice';
 
 export const foodsApi = createApi({
     reducerPath: 'foodApi',
@@ -20,25 +20,28 @@ export const foodsApi = createApi({
             providesTags: ['Foods'],
         }),
 
-        addToFavoriteFood: builder.mutation<IFood, { userId: number; foodId: number }>({
-            query(data) {
-                return {
-                    url: 'favorite/food',
-                    method: 'POST',
-                    body: data,
-                };
-            },
-        }),
-
-        removeFromFavoriteFood: builder.mutation<IFood, { userId: number; foodId: number }>({
-            query(data) {
-                return {
-                    url: 'unfavorite/food',
-                    method: 'POST',
-                    body: data,
-                };
-            },
-        }),
+        // addToFavoriteFood: builder.mutation<IFood, { userId: number; foodId: number }>({
+        //     query(data) {
+        //         return {
+        //             url: 'favorite/food',
+        //             method: 'POST',
+        //             body: data,
+        //         };
+        //     },
+        //     invalidatesTags: ['Foods'],
+        // }),
+        //
+        // removeFromFavoriteFood: builder.mutation<IFood, { userId: number; foodId: number }>({
+        //     query(data) {
+        //         return {
+        //             url: 'unfavorite/food',
+        //             method: 'POST',
+        //             body: data,
+        //         };
+        //     },
+        //     invalidatesTags: ['Foods'],
+        // }),
+        //
         filterFood: builder.mutation<IFood[], { foodName: string }>({
             query(data) {
                 return {
@@ -56,7 +59,7 @@ export const foodsApi = createApi({
                 }
             },
         }),
-        filterFavoriteFood: builder.mutation<IUser, { userId: number; foodName: string }>({
+        filterFavoriteFood: builder.mutation<any, { userId: number; foodName: string }>({
             query(data) {
                 return {
                     url: 'favorite/filter',
@@ -69,13 +72,21 @@ export const foodsApi = createApi({
                 if (!data.favorites.length) {
                     dispatch(setModalType({ type: 'match' }));
                 } else {
-                    dispatch(setFavoriteFilteredFoods(data.favorites));
+                    dispatch(setFavorites(data.favorites));
                 }
             },
         }),
         createOrder: builder.mutation<
-            IUser,
-            { userId: number; order: IOrder[]; courierId: number; total: number; address: string }
+            any,
+            {
+                userId: number;
+                order: IOrder[];
+                userName: string;
+                userPhone: string;
+                userAddress: string;
+                comment: string;
+                paymentMethod: string;
+            }
         >({
             query(data) {
                 return {
@@ -86,7 +97,7 @@ export const foodsApi = createApi({
             },
         }),
 
-        removeOrder: builder.mutation<IUser, { id: number }>({
+        removeOrder: builder.mutation<any, { id: number }>({
             query(data) {
                 return {
                     url: `user/order/${String(data.id)}`,
@@ -95,20 +106,6 @@ export const foodsApi = createApi({
             },
             async onQueryStarted(_args, { dispatch, queryFulfilled }) {
                 const { data } = await queryFulfilled;
-            },
-        }),
-
-        getAllFavoriteFood: builder.mutation<IUser, { userId: number }>({
-            query(data) {
-                return {
-                    url: 'favorite/foods',
-                    method: 'POST',
-                    body: data,
-                };
-            },
-            async onQueryStarted(_args, { dispatch, queryFulfilled }) {
-                const { data: newUser } = await queryFulfilled;
-                dispatch(setCurrentUser(newUser));
             },
         }),
 
@@ -136,35 +133,31 @@ export const foodsApi = createApi({
             },
         }),
 
-        filterFavoriteFoodByCategory: builder.mutation<IUser, { categoryId: number; userId: number }>({
-            query(data) {
-                return {
-                    url: 'categories/favorite/filter',
-                    method: 'POST',
-                    body: data,
-                };
-            },
-            async onQueryStarted(_args, { dispatch, queryFulfilled }) {
-                const { data } = await queryFulfilled;
-                if (!data.favorites.length) {
-                    dispatch(setModalType({ type: 'match' }));
-                } else {
-                    dispatch(setFavoriteFilteredFoods(data.favorites));
-                }
-            },
-        }),
+        // filterFavoriteFoodByCategory: builder.mutation<any, { categoryId: number; userId: number }>({
+        //     query(data) {
+        //         return {
+        //             url: 'categories/favorite/filter',
+        //             method: 'POST',
+        //             body: data,
+        //         };
+        //     },
+        //     async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+        //         const { data } = await queryFulfilled;
+        //         if (!data.favorites.length) {
+        //             dispatch(setModalType({ type: 'match' }));
+        //         } else {
+        //             dispatch(set(data.favorites));
+        //         }
+        //     },
+        // }),
     }),
 });
 
 export const {
     useGetAllFoodsQuery,
-    useRemoveFromFavoriteFoodMutation,
-    useAddToFavoriteFoodMutation,
     useFilterFoodMutation,
-    useFilterFavoriteFoodMutation,
     useCreateOrderMutation,
     useGetAllCategoriesQuery,
     useFilterFoodByCategoryMutation,
-    useFilterFavoriteFoodByCategoryMutation,
     useRemoveOrderMutation,
 } = foodsApi;

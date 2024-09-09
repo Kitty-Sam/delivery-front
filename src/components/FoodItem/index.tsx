@@ -12,45 +12,31 @@ import {
     TextPrice,
     TextTitle,
 } from '~screens/HomeScreen/style';
-import { useAddToFavoriteFoodMutation, useRemoveFromFavoriteFoodMutation } from '~src/redux/api/foodApi';
-import { useGetUserByIdQuery } from '~src/redux/api/userApi';
-import { getCurrentUser } from '~src/redux/selectors';
+import { useAppDispatch, useAppSelector } from '~src/redux/configureStore';
+import { getFavoritesFoods } from '~src/redux/selectors';
 import { addOrder } from '~src/redux/slices/bucketSlice';
 import { IFood } from '~src/redux/slices/foodSlice';
 import { setModalType } from '~src/redux/slices/modalSlice';
-import { useAppDispatch, useAppSelector } from '~src/redux/store';
+import { addInFavorites, removeFromFavorite } from '~src/redux/slices/userSlice';
 
 export const FoodItem = memo(({ item }: { item: IFood }) => {
     const { image, price, name, description, id } = item;
-    const [isFavorite, setIsFavorite] = useState(false);
-
-    const currentUser = useAppSelector(getCurrentUser);
 
     const dispatch = useAppDispatch();
 
+    const favorites = useAppSelector(getFavoritesFoods);
+
     const navigation = useNavigation<any>();
 
-    const [addToFavoriteFood] = useAddToFavoriteFoodMutation();
-    const [removeFromFavoriteFood] = useRemoveFromFavoriteFoodMutation();
-
-    const { refetch } = useGetUserByIdQuery(currentUser!.id);
-
-    const isFocused = useIsFocused();
-
-    useEffect(() => {
-        currentUser!.favorites.find((favfood) => favfood.id === id) ? setIsFavorite(true) : setIsFavorite(false);
-    }, [isFocused]);
+    // const [addToFavoriteFood] = useAddToFavoriteFoodMutation();
+    // const [removeFromFavoriteFood] = useRemoveFromFavoriteFoodMutation();
 
     const addToFavoritePress = async () => {
-        const hasFavorite = currentUser!.favorites.find((favfood) => favfood.id === id);
+        const hasFavorite = favorites.find((food) => food.id === id);
         if (hasFavorite) {
-            await removeFromFavoriteFood({ userId: currentUser!.id, foodId: id }).unwrap();
-            refetch();
-            setIsFavorite(false);
+            dispatch(removeFromFavorite(id));
         } else {
-            await addToFavoriteFood({ userId: currentUser!.id, foodId: id }).unwrap();
-            refetch();
-            setIsFavorite(true);
+            dispatch(addInFavorites(item));
         }
     };
 
@@ -67,7 +53,11 @@ export const FoodItem = memo(({ item }: { item: IFood }) => {
         <Container onPress={onFoodItemPress}>
             <FoodImage source={{ uri: image }} />
             <FavoriteContainer>
-                <Icon name={isFavorite ? 'heart' : 'heart-outline'} size={24} onPress={addToFavoritePress} />
+                <Icon
+                    name={favorites.includes(item) ? 'heart' : 'heart-outline'}
+                    size={24}
+                    onPress={addToFavoritePress}
+                />
             </FavoriteContainer>
             <TextTitle>{name}</TextTitle>
             <TextDescription>{description}</TextDescription>

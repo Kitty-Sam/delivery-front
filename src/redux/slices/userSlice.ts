@@ -2,63 +2,48 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { IFood } from '~src/redux/slices/foodSlice';
 
-export interface IUser {
-    id: number;
-    name: string;
-    email: string;
-    avatar?: string;
-    password: string;
-    favorites: IFood[];
-    orders: ICourierWithOrder[];
-}
-
-export interface ICourierWithOrder {
-    courier: {
-        avatar: string;
-        id: number;
-        name: string;
-        surname: string;
-        phone: string;
-    };
-    id: number;
-    address: string;
-    courierId: number;
-    total: number;
-    userId: number;
-    createdAt: any;
-}
 type UserState = {
-    currentUser: IUser | null;
-    isLoggedIn: boolean;
+    isActiveUser: boolean;
+    isFirstUserAction: boolean;
     theme: null | 'dark' | 'light';
+    favorites: IFood[];
 };
 
 const initialState: UserState = {
-    currentUser: null,
-    isLoggedIn: false,
     theme: null,
+    isActiveUser: false,
+    isFirstUserAction: true,
+    favorites: [],
 };
 
 const userSlice = createSlice({
     initialState,
     name: 'userSlice',
     reducers: {
-        setCurrentUser: (state, action: PayloadAction<IUser>) => {
-            state.currentUser = action.payload;
-        },
         setTheme: (state, action: PayloadAction<any>) => {
             state.theme = action.payload;
         },
-        logIn: (state) => {
-            state.isLoggedIn = true;
+        setIsActiveUser(state, action: PayloadAction<boolean>) {
+            state.isActiveUser = action.payload;
         },
-        logOut: (state) => {
-            state.isLoggedIn = false;
-            state.currentUser = null;
+        setIsFirstUserAction(state, action: PayloadAction<boolean>) {
+            state.isFirstUserAction = action.payload;
+        },
+        setFavorites(state, action: PayloadAction<IFood[]>) {
+            state.favorites = action.payload;
+        },
+        addInFavorites(state, action: PayloadAction<IFood>) {
+            if (!state.favorites.some((favorite) => favorite.id === action.payload.id)) {
+                state.favorites.push(action.payload);
+            }
+        },
+        removeFromFavorite(state, action: PayloadAction<number>) {
+            state.favorites = state.favorites.filter((favorite) => favorite.id !== action.payload);
         },
     },
 });
 
 export default userSlice.reducer;
 
-export const { setCurrentUser, logIn, logOut, setTheme } = userSlice.actions;
+export const { setTheme, setIsActiveUser, setIsFirstUserAction, addInFavorites, removeFromFavorite, setFavorites } =
+    userSlice.actions;

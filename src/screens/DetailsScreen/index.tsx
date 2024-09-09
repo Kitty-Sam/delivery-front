@@ -17,9 +17,9 @@ import {
     TextContainer,
 } from '~screens/DetailsScreen/style';
 import { darkTheme } from '~src/contants/theme';
+import { useAppDispatch, useAppSelector } from '~src/redux/configureStore';
 import { getBucketOrders } from '~src/redux/selectors';
 import { addOrder } from '~src/redux/slices/bucketSlice';
-import { useAppDispatch, useAppSelector } from '~src/redux/store';
 
 export const DetailsScreen: FC<DetailScreenProps> = ({ route, navigation }) => {
     const { food } = route.params;

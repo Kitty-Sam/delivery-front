@@ -1,6 +1,4 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { setupListeners } from '@reduxjs/toolkit/query';
-import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { combineReducers } from '@reduxjs/toolkit';
 
 import { authApi } from '~src/redux/api/authApi';
 import { foodsApi } from '~src/redux/api/foodApi';
@@ -11,7 +9,7 @@ import foodReducer from './slices/foodSlice';
 import modalReducer from './slices/modalSlice';
 import userReducer from './slices/userSlice';
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
     userStore: userReducer,
     foodStore: foodReducer,
     modalStore: modalReducer,
@@ -20,17 +18,3 @@ const rootReducer = combineReducers({
     [foodsApi.reducerPath]: foodsApi.reducer,
     [authApi.reducerPath]: authApi.reducer,
 });
-
-export const store = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({}).concat([usersApi.middleware, foodsApi.middleware, authApi.middleware]),
-});
-
-setupListeners(store.dispatch);
-
-export type RootState = ReturnType<typeof rootReducer>;
-export type AppDispatch = typeof store.dispatch;
-
-export const useAppDispatch: () => AppDispatch = useDispatch;
-export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

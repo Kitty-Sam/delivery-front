@@ -22,9 +22,9 @@ import {
 } from '~screens/HomeScreen/style';
 import { darkTheme } from '~src/contants/theme';
 import { useFilterFoodByCategoryMutation, useGetAllCategoriesQuery, useGetAllFoodsQuery } from '~src/redux/api/foodApi';
+import { useAppDispatch, useAppSelector } from '~src/redux/configureStore';
 import { getCurrentTheme, getFilteredFoods, getModalType } from '~src/redux/selectors';
 import { IFood, setFilteredFoods } from '~src/redux/slices/foodSlice';
-import { useAppDispatch, useAppSelector } from '~src/redux/store';
 
 export const HomeScreen: FC<HomeScreenProps> = () => {
     const [category, setCategory] = useState('');
@@ -83,7 +83,6 @@ export const HomeScreen: FC<HomeScreenProps> = () => {
         <RootContainer>
             <StatusBar barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} />
             <AvatarBlock title="Lets eat  Quality food" />
-            <SearchBar search={search} setSearch={setSearch} filterHandler={filterBySearch} />
             <CategoriesContainer>
                 <FlatList
                     initialNumToRender={10}

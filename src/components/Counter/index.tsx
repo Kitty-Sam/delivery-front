@@ -2,8 +2,8 @@ import React, { FC } from 'react';
 
 import { CounterContainer, RoundContainer, TextPrice } from '~components/Counter/style';
 import { ICounter } from '~components/Counter/type';
+import { useAppDispatch } from '~src/redux/configureStore';
 import { addOrder, removeOrder } from '~src/redux/slices/bucketSlice';
-import { useAppDispatch } from '~src/redux/store';
 
 export const Counter: FC<ICounter> = ({ food }) => {
     const dispatch = useAppDispatch();
